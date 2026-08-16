@@ -1,6 +1,6 @@
 const pokemons = [
-  { Name: "Shuckle", SerialNumber: "136/132", Textured: "No", Price1: "R$ 124.90", Price2: "-", Price3: "-", Image: "Assets/imgs/shuckle.jpg" },
-  { Name: "Vulpix", SerialNumber: "138/132", Textured: "No", Price1: "R$ 147.40", Price2: "R$ 154.90", Price3: "R$ 155.00", Image: "Assets/imgs/vulpix.jpg" },
+  { Name: "Shuckle", SerialNumber: "136/132", Textured: "No", Price1: "R$ 124.90", Price2: "-", Price3: "-", Image: "Assets/imgs/Shuckle.jpg" },
+  { Name: "Vulpix", SerialNumber: "138/132", Textured: "No", Price1: "R$ 147.40", Price2: "R$ 154.90", Price3: "R$ 155.00", Image: "Assets/imgs/Vulpix.jpg" },
   { Name: "Iono's Bellibolt Ex", SerialNumber: "194/∞", Textured: "Yes", Price1: "R$ 23.74", Price2: "R$ 39.50", Price3: "-", Image: "Assets/imgs/BelliboltEXdaKissera.jpg" },
   { Name: "Vaporeon-V", SerialNumber: "SWSH181/71", Textured: "No", Price1: "R$ 226.17", Price2: "R$ 800.00", Price3: "-", Image: "Assets/imgs/VaporeonV.jpg" },
   { Name: "Dragonite-V", SerialNumber: "049/078", Textured: "No", Price1: "R$ 77.48", Price2: "R$ 120.00", Price3: "-", Image: "Assets/imgs/DragoniteV.jpg" },

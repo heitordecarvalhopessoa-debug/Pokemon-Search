@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Search</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modals.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header-bar">
+            <div class="header-titles">
+                <h1>Pokemon Search</h1>
+                <h4>Only <b>FULLART / EX / GX</b> Pokémon</h4>
+            </div>
+
+            <div class="header-actions">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
+                <button id="creditsBtn" class="credits-btn" onclick="openCredits()">Credits</button>
+            </div>
+        </header>
+
+        <div id="cardGrid" class="card-grid"></div>
+        <div id="noResults" class="no-results">
+            No Pokémon found.
+        </div>
+    </div>
+
+    <div id="cardModal" class="modal">
+        <div class="modal-content modal-right">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <img id="modalImg" src="" alt="Large card view">
+                <div class="modal-info">
+                    <h2 id="modalName"></h2>
+                    <p><strong>Serial No.:</strong> <span id="modalSeries"></span></p>
+                    <p><strong>Textured:</strong> <span id="modalTextured"></span></p>
+                    <hr>
+                    <h3>Prices Found:</h3>
+                    <ul class="price-list">
+                        <li>Price 1: <strong id="modalPrice1"></strong></li>
+                        <li>Price 2: <strong id="modalPrice2"></strong></li>
+                        <li>Price 3: <strong id="modalPrice3"></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="creditsModal" class="modal">
+        <div class="modal-content credits-content">
+            <span class="close-btn" onclick="closeCredits()">&times;</span>
+            <div class="credits-header">
+                <h2>Credits</h2>
+            </div>
+
+            <div class="credits-body">
+                <div class="credits-card">
+                    <div>
+                        <strong>Developer</strong>
+                        <p>Heitor Pessoa</p>
+                    </div>
+                </div>
+
+                <div class="credits-card">
+                    <div>
+                        <strong>Card Research</strong>
+                        <p>Heitor Pessoa, Pedro Augusto, João Gabriel</p>
+                    </div>
+                </div>
+
+                <div class="credits-card">
+                    <div>
+                        <strong>Information Sources</strong>
+                        <p>LigaPokemon, Amazon, Ebay</p>
+                    </div>
+                </div>
+
+                <div class="credits-card">
+                    <div>
+                        <strong>All rights to original creators</strong>
+                        <p>Nintendo, Copag</p>
+                    </div>
+                </div>
+
+                <div class="credits-footer">
+                    <span>Version 1.0.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js" defer></script>
+    <script src="js/renderer.js" defer></script>
+    <script src="js/search.js" defer></script>
+</body>
+
+</html>

@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Search</title>
+    <link rel="icon" type="image/png" href="Assets/ico/Logo.png">
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/filter-drawer.css">
     <link rel="stylesheet" href="css/modals.css">
 </head>
 
@@ -15,15 +17,38 @@
     <div class="container">
         <header class="header-bar">
             <div class="header-titles">
-                <h1>Pokemon Search</h1>
-                <h4>Only <b>FULLART / EX / GX</b> Pokémon</h4>
+                <img src="Assets/ico/Logo.png" alt="Pokemon Search Logo" class="site-logo">
+                <div class="text-group">
+                    <h1>Pokemon Search</h1>
+                    <h4>Only <b>FULLART / EX / GX / V / VMAX</b> Pokémon</h4>
+                </div>
             </div>
 
             <div class="header-actions">
                 <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
+
+                <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
+                    <span id="currentCurrencyLabel">BRL (R$)</span>
+                </button>
+
+                <button id="filterToggleBtn" class="filter-toggle-btn" onclick="toggleFilterDrawer()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    Filter
+                    <span id="activeFilterBadge" class="active-badge" style="display: none;">0</span>
+                </button>
+
                 <button id="creditsBtn" class="credits-btn" onclick="openCredits()">Credits</button>
             </div>
         </header>
+
+        <div class="results-info">
+            <span>Total cards: <strong id="totalCardsCount">0</strong></span> |
+            <span>Favorites: <strong id="totalFavsCount">0</strong></span> |
+            <span id="resultsCount">Showing 0 cards</span>
+        </div>
 
         <div id="cardGrid" class="card-grid"></div>
         <div id="noResults" class="no-results">
@@ -31,11 +56,71 @@
         </div>
     </div>
 
+    <div id="filterOverlay" class="filter-overlay" onclick="closeFilterDrawer()"></div>
+    <aside id="filterDrawer" class="filter-drawer">
+        <div class="drawer-header">
+            <h3>Filters & Sorting</h3>
+            <span class="drawer-close-btn" onclick="closeFilterDrawer()">&times;</span>
+        </div>
+
+        <div class="drawer-body">
+            <div class="filter-group">
+                <label for="categoryFilter">Category</label>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="ALL">All Categories</option>
+                    <option value="V">V</option>
+                    <option value="VMAX">VMAX</option>
+                    <option value="VSTAR">VSTAR</option>
+                    <option value="EX">EX</option>
+                    <option value="GX">GX</option>
+                    <option value="BREAK">BREAK</option>
+                    <option value="Other">Others</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="textureFilter">Texture</label>
+                <select id="textureFilter" class="filter-select">
+                    <option value="ALL">All Textures</option>
+                    <option value="Yes">Textured</option>
+                    <option value="No">Non-Textured</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="favFilter">Favorites</label>
+                <select id="favFilter" class="filter-select">
+                    <option value="ALL">All Cards</option>
+                    <option value="FAV">Only Favorites</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="sortOrder">Sort By</label>
+                <select id="sortOrder" class="filter-select">
+                    <option value="default">Default</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+            <button class="apply-btn" onclick="closeFilterDrawer()">Apply</button>
+        </div>
+    </aside>
+
     <div id="cardModal" class="modal">
         <div class="modal-content modal-right">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-body">
-                <img id="modalImg" src="" alt="Large card view">
+                
+                <div class="zoom-container" id="zoomContainer">
+                    <img id="modalImg" src="" alt="Pokémon Card">
+                </div>
+
                 <div class="modal-info">
                     <h2 id="modalName"></h2>
                     <p><strong>Serial No.:</strong> <span id="modalSeries"></span></p>
@@ -47,6 +132,30 @@
                         <li>Price 2: <strong id="modalPrice2"></strong></li>
                         <li>Price 3: <strong id="modalPrice3"></strong></li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="currencyModal" class="modal">
+        <div class="modal-content currency-content">
+            <span class="close-btn" onclick="closeCurrencyModal()">&times;</span>
+            <div class="currency-header">
+                <h2>Select Currency</h2>
+            </div>
+            <div class="currency-body">
+                <p class="modal-subtitle">Choose your preferred currency for display:</p>
+
+                <div class="currency-options">
+                    <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
+                        <span class="flag">🇧🇷</span> Real Brasileiro (R$)
+                    </button>
+                    <button class="currency-option-btn" data-currency="USD" onclick="selectCurrency('USD')">
+                        <span class="flag">🇺🇸</span> US Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="EUR" onclick="selectCurrency('EUR')">
+                        <span class="flag">🇪🇺</span> Euro (€)
+                    </button>
                 </div>
             </div>
         </div>
@@ -82,15 +191,17 @@
                 </div>
 
                 <div class="credits-footer">
-                    <span>Version 1.0.0</span>
+                    <span>Version 1.3.0</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="js/converter.js" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/renderer.js" defer></script>
     <script src="js/search.js" defer></script>
+    <script src="js/counter.js" defer></script>
 </body>
 
 </html>

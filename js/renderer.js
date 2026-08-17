@@ -1,3 +1,31 @@
+function getFavorites() {
+  const favorites = localStorage.getItem("favoriteCards");
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+function toggleFavorite(serialNumber, event) {
+  event.stopPropagation();
+
+  let favorites = getFavorites();
+  if (favorites.includes(serialNumber)) {
+    favorites = favorites.filter((id) => id !== serialNumber);
+  } else {
+    favorites.push(serialNumber);
+  }
+
+  localStorage.setItem("favoriteCards", JSON.stringify(favorites));
+
+  if (typeof updateCardCounters === "function") {
+    updateCardCounters();
+  }
+
+  if (typeof filterTable === "function") {
+    filterTable();
+  } else if (typeof pokemons !== "undefined") {
+    renderTable(pokemons);
+  }
+}
+
 function renderTable(data) {
   const container = document.getElementById("cardGrid");
   const noResults = document.getElementById("noResults");
@@ -13,6 +41,8 @@ function renderTable(data) {
     noResults.style.display = "none";
   }
 
+  const favorites = getFavorites();
+
   data.forEach((pokemon) => {
     const card = document.createElement("div");
     card.className = "card-item";
@@ -21,8 +51,18 @@ function renderTable(data) {
     const texturedText =
       pokemon.Textured === "Yes" ? "Textured" : "Non-Textured";
 
+    const isFav = favorites.includes(pokemon.SerialNumber);
+    const heartIcon = isFav ? "❤️" : "🤍";
+
+    const formattedPrice1 = typeof convertPrice === "function" 
+      ? convertPrice(pokemon.Price1) 
+      : pokemon.Price1;
+
     card.innerHTML = `
       <div class="card-img-wrapper">
+        <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFavorite('${pokemon.SerialNumber}', event)" title="Favorite">
+          ${heartIcon}
+        </button>
         <img src="${pokemon.Image}" alt="${pokemon.Name}" class="card-img" onerror="this.src='https://via.placeholder.com/140x195?text=No+Img'">
       </div>
       <div class="card-info">
@@ -31,7 +71,7 @@ function renderTable(data) {
         <div class="card-badges">
           <span class="${badgeClass}">${texturedText}</span>
         </div>
-        <div class="card-price-main">${pokemon.Price1}</div>
+        <div class="card-price-main">${formattedPrice1}</div>
       </div>
     `;
 
@@ -43,21 +83,41 @@ function renderTable(data) {
   });
 }
 
+function updateModalPrices(pokemon) {
+  if (!pokemon) return;
+
+  const price1El = document.getElementById("modalPrice1");
+  const price2El = document.getElementById("modalPrice2");
+  const price3El = document.getElementById("modalPrice3");
+
+  if (price1El) price1El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price1) : pokemon.Price1;
+  if (price2El) price2El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price2) : pokemon.Price2;
+  if (price3El) price3El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price3) : pokemon.Price3;
+}
+
 function openModal(pokemon) {
+  currentModalPokemon = pokemon;
+
+  const zoomContainer = document.getElementById("zoomContainer");
+  const modalImg = document.getElementById("modalImg");
+  if (zoomContainer && modalImg) {
+    zoomContainer.classList.remove("zoomed");
+    modalImg.style.transformOrigin = "center center";
+  }
+
   document.getElementById("modalImg").src = pokemon.Image;
   document.getElementById("modalName").innerText = pokemon.Name;
   document.getElementById("modalSeries").innerText = pokemon.SerialNumber;
   document.getElementById("modalTextured").innerText =
     pokemon.Textured === "Yes" ? "Yes" : "No";
 
-  document.getElementById("modalPrice1").innerText = pokemon.Price1;
-  document.getElementById("modalPrice2").innerText = pokemon.Price2;
-  document.getElementById("modalPrice3").innerText = pokemon.Price3;
+  updateModalPrices(pokemon);
 
   document.getElementById("cardModal").style.display = "flex";
 }
 
 function closeModal() {
+  currentModalPokemon = null;
   document.getElementById("cardModal").style.display = "none";
 }
 
@@ -67,6 +127,30 @@ function openCredits() {
 
 function closeCredits() {
   document.getElementById("creditsModal").style.display = "none";
+}
+
+function initZoomFeature() {
+  const zoomContainer = document.getElementById("zoomContainer");
+  const modalImg = document.getElementById("modalImg");
+
+  if (!zoomContainer || !modalImg) return;
+
+  zoomContainer.addEventListener("mousemove", (e) => {
+    const rect = zoomContainer.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    modalImg.style.transformOrigin = `${x}% ${y}%`;
+  });
+
+  zoomContainer.addEventListener("click", () => {
+    zoomContainer.classList.toggle("zoomed");
+  });
+
+  zoomContainer.addEventListener("mouseleave", () => {
+    zoomContainer.classList.remove("zoomed");
+    modalImg.style.transformOrigin = "center center";
+  });
 }
 
 window.onclick = function (event) {
@@ -82,6 +166,8 @@ window.onclick = function (event) {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initZoomFeature();
+
   if (typeof pokemons !== "undefined") {
     renderTable(pokemons);
   }

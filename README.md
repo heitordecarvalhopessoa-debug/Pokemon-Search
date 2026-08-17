@@ -2,7 +2,7 @@
 
 A system for searching, filtering, and favoriting Pokémon TCG cards.
 
-## Features
+### Features
 
 - Search: Search by name or serial number.
 - Favorites: Saves favorited cards to browser storage (localStorage).
@@ -10,7 +10,7 @@ A system for searching, filtering, and favoriting Pokémon TCG cards.
 - Sorting: Sort by price or name.
 - Details: Displays additional information and prices when clicking on a card.
 
-## File Structure
+### File Structure
 
 - index.html: Main page.
 - css/style.css: General styles.
@@ -19,8 +19,3 @@ A system for searching, filtering, and favoriting Pokémon TCG cards.
 - js/data.js: List of cards.
 - js/renderer.js: Card rendering and favorites saving.
 - js/search.js: Search, filter, and sorting logic.
-
-## How to Use
-
-1. Download the project files.
-2. Open the index.html file in your browser.

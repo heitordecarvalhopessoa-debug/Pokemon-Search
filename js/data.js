@@ -5,7 +5,7 @@ function getCardCategory(name) {
   if (upperName.includes("VSTAR")) return "VSTAR";
   if (upperName.includes("EX")) return "EX";
   if (upperName.includes("GX")) return "GX";
-  if (upperName.includes("BREAK")) return "BREAK"; // <--- Adicionado aqui
+  if (upperName.includes("BREAK")) return "BREAK";
   if (upperName.includes("-V") || upperName.endsWith(" V")) return "V";
 
   return "Outro";

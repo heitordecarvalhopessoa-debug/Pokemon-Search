@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Search - Home</title>
+    <title>Pokemon Search - Coins</title>
     <link rel="icon" type="image/png" href="Assets/ico/Logo.png">
 
     <link rel="stylesheet" href="css/style.css">
@@ -19,8 +19,8 @@
             <div class="header-titles">
                 <img src="Assets/ico/Logo.png" alt="Pokemon Search Logo" class="site-logo">
                 <div class="text-group">
-                    <h1>Pokemon Search</h1>
-                    <h4>Only <b>FULLART / EX / GX / V / VMAX / VSTAR / BREAK / VUNION / COINS</b> Pokémon</h4>
+                    <h1>Pokemon Coins</h1>
+                    <h4>Only <b>COINS</b> Pokémon</h4>
                     <nav class="nav-links" style="margin-top: 8px;">
                         <a href="index.html" style="margin-right: 15px; font-weight: bold;">Home</a>
                         <a href="cards.html" style="margin-right: 15px; font-weight: bold;">Cards</a>
@@ -30,21 +30,37 @@
             </div>
 
             <div class="header-actions">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search coin name...">
 
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>
+                </button>
+
+                <button id="filterToggleBtn" class="filter-toggle-btn" onclick="toggleFilterDrawer()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    Filter
+                    <span id="activeFilterBadge" class="active-badge" style="display: none;">0</span>
                 </button>
 
                 <button id="creditsBtn" class="credits-btn" onclick="openCredits()">Credits</button>
             </div>
         </header>
 
-        <div class="carousel-wrapper">
-            <div id="cardGrid" class="carousel-track"></div>
+        <div class="results-info">
+            <span>Total coins: <strong id="totalCardsCount">0</strong></span> |
+            <span>Favorites: <strong id="totalFavsCount">0</strong></span> |
+            <span id="resultsCount">Showing 0 coins</span>
         </div>
+
+        <div id="cardGrid" class="card-grid"></div>
         <div id="noResults" class="no-results">
-            No Pokémon found.
+            No Pokémon coins found.
+        </div>
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreCards()">Load More...</button>
         </div>
     </div>
 
@@ -57,20 +73,6 @@
 
         <div class="drawer-body">
             <div class="filter-group">
-                <label for="categoryFilter">Category</label>
-                <select id="categoryFilter" class="filter-select">
-                    <option value="ALL">All Categories</option>
-                    <option value="V">V</option>
-                    <option value="VMAX">VMAX</option>
-                    <option value="VSTAR">VSTAR</option>
-                    <option value="EX">EX</option>
-                    <option value="GX">GX</option>
-                    <option value="BREAK">BREAK</option>
-                    <option value="Other">Others</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
                 <label for="textureFilter">Texture</label>
                 <select id="textureFilter" class="filter-select">
                     <option value="ALL">All Textures</option>
@@ -82,7 +84,7 @@
             <div class="filter-group">
                 <label for="favFilter">Favorites</label>
                 <select id="favFilter" class="filter-select">
-                    <option value="ALL">All Cards</option>
+                    <option value="ALL">All Coins</option>
                     <option value="FAV">Only Favorites</option>
                 </select>
             </div>
@@ -109,7 +111,7 @@
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <img id="modalImg" src="" alt="Pokémon Card">
+                    <img id="modalImg" src="" alt="Pokémon Coin">
                 </div>
                 <div class="modal-info">
                     <h2 id="modalName"></h2>
@@ -136,6 +138,7 @@
             </div>
             <div class="currency-body">
                 <p class="modal-subtitle">Choose your preferred currency for display:</p>
+
                 <div class="currency-options">
                     <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
                         <span class="flag">🇧🇷</span> Brazilian Real (R$)
@@ -162,32 +165,8 @@
 
     <script>
         window.addEventListener("load", () => {
-            if (typeof pokemons !== "undefined") {
-                const onlyCards = pokemons.filter(p => p.Category !== "Coin");
-                
-                const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
-                const random12 = shuffled.slice(0, 12);
-                
-                window.homeRandomSelection = random12;
-                
-                const container = document.getElementById("cardGrid");
-                if (container && typeof createCardElement === "function") {
-                    container.innerHTML = "";
-
-                    const doubleCards = [...random12, ...random12];
-                    
-                    doubleCards.forEach(pokemon => {
-                        container.appendChild(createCardElement(pokemon));
-                    });
-                }
-
-                const resultsCount = document.getElementById("resultsCount");
-                if (resultsCount) {
-                    resultsCount.innerText = `Showing 12 random cards`;
-                }
-
-                const loadBtn = document.getElementById("loadMoreBtn");
-                if (loadBtn) loadBtn.style.display = "none";
+            if (typeof filterTable === "function") {
+                filterTable();
             }
         });
     </script>

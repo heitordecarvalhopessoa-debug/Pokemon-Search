@@ -166,3 +166,13 @@
     padding: 1px 5px;
     border-radius: 0;
 }
+
+.card-set {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 2px;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

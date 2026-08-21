@@ -275,3 +275,9 @@
 .zoom-container.zoomed img {
     transform: scale(2.2);
 }
+
+.site-logo {
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+}

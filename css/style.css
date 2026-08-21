@@ -227,3 +227,93 @@ body {
     font-size: 16px;
     display: none;
 }
+
+.load-more-container {
+    text-align: center;
+    margin: 25px 0 10px 0;
+}
+
+.load-more-btn {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.load-more-btn:hover {
+    background-color: #2980b9;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.home-grid .card-item {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.home-description {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+    .home-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .home-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.carousel-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 20px 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.carousel-track {
+  display: flex;
+  width: max-content;
+  animation: scrollContinuous 25s linear infinite;
+  will-change: transform;
+}
+
+.carousel-wrapper:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+.carousel-track .card-item {
+  flex: 0 0 190px;
+  margin-right: 15px;
+  box-sizing: border-box;
+}
+
+@keyframes scrollContinuous {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}

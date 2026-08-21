@@ -1,114 +1,166 @@
 function getCardCategory(name) {
+  if (!name) return "Other";
   const upperName = name.toUpperCase();
 
+  if (upperName.includes("COIN")) return "Coin";
   if (upperName.includes("VMAX")) return "VMAX";
   if (upperName.includes("VSTAR")) return "VSTAR";
   if (upperName.includes("EX")) return "EX";
   if (upperName.includes("GX")) return "GX";
   if (upperName.includes("BREAK")) return "BREAK";
-  if (upperName.includes("-V") || upperName.endsWith(" V")) return "V";
+  if (upperName.includes("-V") || upperName.endsWith(" V") || upperName.includes(" V ")) return "V";
 
-  return "Outro";
+  return "Other";
 }
 
-const pokemons = [
-  { Name: "Shuckle", SerialNumber: "136/132", Textured: "No", Price1: "R$ 124.90", Price2: "-", Price3: "-", Image: "Assets/imgs/Shuckle.jpg", Category: getCardCategory("Shuckle") },
-  { Name: "Vulpix", SerialNumber: "138/132", Textured: "No", Price1: "R$ 147.40", Price2: "R$ 154.90", Price3: "R$ 155.00", Image: "Assets/imgs/Vulpix.jpg", Category: getCardCategory("Vulpix") },
-  { Name: "Iono's Bellibolt Ex", SerialNumber: "194/∞", Textured: "Yes", Price1: "R$ 23.74", Price2: "R$ 39.50", Price3: "-", Image: "Assets/imgs/BelliboltEXdaKissera.jpg", Category: getCardCategory("Iono's Bellibolt Ex") },
-  { Name: "Vaporeon V", SerialNumber: "SWSH181/71", Textured: "Yes", Price1: "R$ 226.17", Price2: "R$ 800.00", Price3: "-", Image: "Assets/imgs/VaporeonV.jpg", Category: getCardCategory("Vaporeon V") },
-  { Name: "Dragonite V", SerialNumber: "049/078", Textured: "No", Price1: "R$ 77.48", Price2: "R$ 120.00", Price3: "-", Image: "Assets/imgs/DragoniteV.jpg", Category: getCardCategory("Dragonite V") },
-  { Name: "Turtwig", SerialNumber: "GG31/GG70", Textured: "No", Price1: "R$ 65.00", Price2: "R$ 104.46", Price3: "R$ 129.99", Image: "Assets/imgs/Turtwig.jpg", Category: getCardCategory("Turtwig") },
-  { Name: "Dedenne", SerialNumber: "093/088", Textured: "No", Price1: "R$ 38.11", Price2: "R$ 90.00", Price3: "-", Image: "Assets/imgs/Dedenne.jpg", Category: getCardCategory("Dedenne") },
-  { Name: "Malamar Vmax", SerialNumber: "198/192", Textured: "Yes", Price1: "R$ 59.89", Price2: "R$ 149.90", Price3: "-", Image: "Assets/imgs/MalamarVmax.jpg", Category: getCardCategory("Malamar VMAX") },
-  { Name: "Mega Clefable Ex", SerialNumber: "031/088", Textured: "Yes", Price1: "R$ 20.00", Price2: "R$ 48.00", Price3: "-", Image: "Assets/imgs/MegaClefableEx.jpg", Category: getCardCategory("Mega Clefable Ex") },
-  { Name: "Tapu Bulu Gx", SerialNumber: "SM32/250", Textured: "No", Price1: "R$ 8.52", Price2: "R$ 18.00", Price3: "R$ 20.00", Image: "Assets/imgs/TabuBuluGX.jpg", Category: getCardCategory("Tapu Bulu GX") },
-  { Name: "Black Kyurem Ex", SerialNumber: "048/191", Textured: "No", Price1: "R$ 12.90", Price2: "R$ 16.80", Price3: "-", Image: "Assets/imgs/KyuremPretoEx.jpg", Category: getCardCategory("Black Kyurem Ex") },
-  { Name: "Mega Charizard X Ex", SerialNumber: "29/∞", Textured: "Yes", Price1: "R$ 44.17", Price2: "R$ 100.00", Price3: "-", Image: "Assets/imgs/MegaCharizardXEx.jpg", Category: getCardCategory("Mega Charizard X Ex") },
-  { Name: "Charmander", SerialNumber: "168/165", Textured: "No", Price1: "R$ 319.90", Price2: "R$ 559.45", Price3: "R$ 1499.00", Image: "Assets/imgs/Charmander.jpg", Category: getCardCategory("Charmander") },
-  { Name: "Charmeleon", SerialNumber: "169/165", Textured: "No", Price1: "R$ 240.00", Price2: "R$ 646.53", Price3: "R$ 1500.00", Image: "Assets/imgs/Charmeleon.jpg", Category: getCardCategory("Charmeleon") },
-  { Name: "Charizard Ex", SerialNumber: "199/165", Textured: "No", Price1: "R$ 1400.00", Price2: "R$ 3130.76", Price3: "R$ 8999.90", Image: "Assets/imgs/CharizardEx.jpg", Category: getCardCategory("Charizard Ex") },
-  { Name: "Bulbasaur", SerialNumber: "166/165", Textured: "No", Price1: "R$ 480.00", Price2: "R$ 900.00", Price3: "-", Image: "Assets/imgs/Bulbasaur.jpg", Category: getCardCategory("Bulbasaur") },
-  { Name: "Ivysaur", SerialNumber: "167/165", Textured: "No", Price1: "R$ 374.39", Price2: "R$ 2199.00", Price3: "-", Image: "Assets/imgs/Ivysaur.jpg", Category: getCardCategory("Ivysaur") },
-  { Name: "Venusaur Ex", SerialNumber: "198/165", Textured: "No", Price1: "R$ 700.00", Price2: "R$ 1200.21", Price3: "R$ 1850.00", Image: "Assets/imgs/VenusaurEx.jpg", Category: getCardCategory("Venusaur Ex") },
-  { Name: "Squirtle", SerialNumber: "170/165", Textured: "No", Price1: "R$ 140.00", Price2: "R$ 417.38", Price3: "R$ 799.00", Image: "Assets/imgs/Squirtle.jpg", Category: getCardCategory("Squirtle") },
-  { Name: "Wartortle", SerialNumber: "171/165", Textured: "No", Price1: "R$ 324.90", Price2: "R$ 570.56", Price3: "R$ 699.90", Image: "Assets/imgs/Wartortle.jpg", Category: getCardCategory("Wartortle") },
-  { Name: "Blastoise Ex", SerialNumber: "200/165", Textured: "No", Price1: "R$ 699.80", Price2: "R$ 1102.14", Price3: "R$ 1999.00", Image: "Assets/imgs/BlastoiseEx.jpg", Category: getCardCategory("Blastoise Ex") },
-  { Name: "Reshiram Ex", SerialNumber: "173/086", Textured: "Yes", Price1: "R$ 1150.00", Price2: "R$ 1384.97", Price3: "R$ 1800.00", Image: "Assets/imgs/ReshiramEx.jpg", Category: getCardCategory("Reshiram Ex") },
-  { Name: "Victini", SerialNumber: "172a/086", Textured: "Yes", Price1: "R$ 1450.00", Price2: "R$ 1769.62", Price3: "R$ 3499.90", Image: "Assets/imgs/Victini.jpg", Category: getCardCategory("Victini") },
-  { Name: "Zekrom Ex", SerialNumber: "172b/086", Textured: "Yes", Price1: "R$ 1343.00", Price2: "R$ 1893.93", Price3: "R$ 5000.00", Image: "Assets/imgs/ZekromEx.jpg", Category: getCardCategory("Zekrom Ex") },
-  //1.1.0
-  { Name: "Charizard Gx", SerialNumber: "20/147", Textured: "No", Price1: "R$ 39.90", Price2: "R$ 68.72", Price3: "R$ 109.50", Image: "Assets/imgs/CharizardGx.jpg", Category: getCardCategory("Charizard GX") },
-  { Name: "Dedenne Gx", SerialNumber: "57/214", Textured: "No", Price1: "R$ 35.00", Price2: "-", Price3: "-", Image: "Assets/imgs/DedenneGX.jpg", Category: getCardCategory("Dedenne GX") },
-  { Name: "Pikachu & Zekrom Gx", SerialNumber: "33/181", Textured: "No", Price1: "R$ 236.55", Price2: "R$ 263.90", Price3: "R$ 599.99", Image: "Assets/imgs/PikachuZekromGX.jpg", Category: getCardCategory("Pikachu & Zekrom GX") },
-  { Name: "Mewtwo & Mew Gx", SerialNumber: "71/236", Textured: "No", Price1: "R$ 119.90", Price2: "R$ 239.94", Price3: "R$ 850.00", Image: "Assets/imgs/MewtwoMewGX.jpg", Category: getCardCategory("Mewtwo & Mew GX") },
-  { Name: "Rayquaza Gx", SerialNumber: "177/168", Textured: "Yes", Price1: "R$ 280.00", Price2: "R$ 758.90", Price3: "R$ 1999.95", Image: "Assets/imgs/RayquazaGX.jpg", Category: getCardCategory("Rayquaza GX") },
-  { Name: "Eevee Ex", SerialNumber: "167/131", Textured: "No", Price1: "R$ 339.99", Price2: "R$ 622.31", Price3: "R$ 899.90", Image: "Assets/imgs/EeveeEx.jpg", Category: getCardCategory("Eevee Ex") },
-  { Name: "Vaporeon Ex", SerialNumber: "149/131", Textured: "No", Price1: "R$ 1299.90", Price2: "R$ 1899.90", Price3: "-", Image: "Assets/imgs/VaporeonEx.jpg", Category: getCardCategory("Vaporeon Ex") },
-  { Name: "Jolteon Ex", SerialNumber: "153/131", Textured: "No", Price1: "R$ 752.15", Price2: "R$ 2000.00", Price3: "-", Image: "Assets/imgs/JolteonEx.jpg", Category: getCardCategory("Jolteon Ex") },
-  { Name: "Flareon Ex", SerialNumber: "146/131", Textured: "No", Price1: "R$ 1399.90", Price2: "R$ 1800.00", Price3: "-", Image: "Assets/imgs/FlareonEx.jpg", Category: getCardCategory("Flareon Ex") },
-  { Name: "Espeon Ex", SerialNumber: "155/131", Textured: "No", Price1: "R$ 875.00", Price2: "R$ 1143.26", Price3: "R$ 1999.90", Image: "Assets/imgs/EspeonEx.jpg", Category: getCardCategory("Espeon Ex") },
-  { Name: "Umbreon Ex", SerialNumber: "161/131", Textured: "No", Price1: "R$ 2400.00", Price2: "R$ 4575.35", Price3: "R$ 7999.99", Image: "Assets/imgs/UmbreonEx.jpg", Category: getCardCategory("Umbreon Ex") },
-  { Name: "Leafeon Ex", SerialNumber: "144/131", Textured: "No", Price1: "R$ 849.00", Price2: "R$ 1235.89", Price3: "R$ 2300.00", Image: "Assets/imgs/LeafeonEx.jpg", Category: getCardCategory("Leafeon Ex") },
-  { Name: "Glaceon Ex", SerialNumber: "150/131", Textured: "No", Price1: "R$ 595.00", Price2: "R$ 1231.98", Price3: "R$ 5000.00", Image: "Assets/imgs/GlaceonEx.jpg", Category: getCardCategory("Glaceon Ex") },
-  { Name: "Sylveon Ex", SerialNumber: "156/131", Textured: "No", Price1: "R$ 1995.00", Price2: "R$ 2465.69", Price3: "R$ 3999.90", Image: "Assets/imgs/SylveonEx.jpg", Category: getCardCategory("Sylveon Ex") },
-  { Name: "Rayquaza V", SerialNumber: "110/203", Textured: "No", Price1: "R$ 20.00", Price2: "-", Price3: "-", Image: "Assets/imgs/RayquazaV.jpg", Category: getCardCategory("Rayquaza V") },
-  { Name: "Umbreon V", SerialNumber: "094/203", Textured: "No", Price1: "R$ 33.90", Price2: "R$ 99.90", Price3: "-", Image: "Assets/imgs/UmbreonV.jpg", Category: getCardCategory("Umbreon V") },
-  { Name: "Mew V", SerialNumber: "113/264", Textured: "No", Price1: "R$ 75.00", Price2: "-", Price3: "-", Image: "Assets/imgs/MewV.jpg", Category: getCardCategory("Mew V") },
-  { Name: "Gengar V", SerialNumber: "156/264", Textured: "No", Price1: "R$ 120.00", Price2: "-", Price3: "-", Image: "Assets/imgs/GengarV.jpg", Category: getCardCategory("Gengar V") },
-  { Name: "Celebi V", SerialNumber: "007/198", Textured: "No", Price1: "R$ 19.99", Price2: "-", Price3: "-", Image: "Assets/imgs/CelebiV.jpg", Category: getCardCategory("Celebi V") },
-  { Name: "Galarian Moltres V", SerialNumber: "097/198", Textured: "No", Price1: "R$ 25.64", Price2: "R$ 55.00", Price3: "-", Image: "Assets/imgs/GalarianMoltresV.jpg", Category: getCardCategory("Galarian Moltres V") },
-  { Name: "Milotic V", SerialNumber: "043/192", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/MiloticV.jpg", Category: getCardCategory("Milotic V") },
-  { Name: "Charizard Vmax Rainbow", SerialNumber: "74/73", Textured: "Yes", Price1: "R$ 1999.90", Price2: "R$ 3549.98", Price3: "R$ 9500.00", Image: "Assets/imgs/CharizardVmaxRWB.jpg", Category: getCardCategory("Charizard VMAX") },
-  { Name: "Charizard Vmax", SerialNumber: "20/189", Textured: "Yes", Price1: "R$ 221.02", Price2: "R$ 349.50", Price3: "-", Image: "Assets/imgs/CharizardVmax.jpg", Category: getCardCategory("Charizard VMAX") },
-  { Name: "Pikachu Vmax", SerialNumber: "44/185", Textured: "Yes", Price1: "R$ 499.00", Price2: "-", Price3: "-", Image: "Assets/imgs/PikachuVmax.jpg", Category: getCardCategory("Pikachu VMAX") },
-  { Name: "Rayquaza Vmax", SerialNumber: "111/203", Textured: "Yes", Price1: "R$ 51.95", Price2: "R$ 93.74", Price3: "R$ 500.00", Image: "Assets/imgs/RayquazaVmax.jpg", Category: getCardCategory("Rayquaza VMAX") },
-  { Name: "Umbreon Vmax", SerialNumber: "095/203", Textured: "Yes", Price1: "R$ 179.72", Price2: "R$ 329.90", Price3: "-", Image: "Assets/imgs/UmbreonVmax.jpg", Category: getCardCategory("Umbreon VMAX") },
-  { Name: "Mew Vmax", SerialNumber: "114/264", Textured: "Yes", Price1: "R$ 67.84", Price2: "R$ 189.50", Price3: "-", Image: "Assets/imgs/MewVmax.jpg", Category: getCardCategory("Mew VMAX") },
-  { Name: "Eternatus Vmax", SerialNumber: "117/189", Textured: "Yes", Price1: "R$ 49.99", Price2: "R$ 51.26", Price3: "-", Image: "Assets/imgs/EternatusVmax.jpg", Category: getCardCategory("Eternatus VMAX") },
-  { Name: "Giratina Vstar", SerialNumber: "131/196", Textured: "No", Price1: "R$ 74.85", Price2: "-", Price3: "-", Image: "Assets/imgs/GiratinaVstar.jpg", Category: getCardCategory("Giratina Vstar") },
-  { Name: "Shaymin Vstar", SerialNumber: "14/172", Textured: "No", Price1: "R$ 17.35", Price2: "R$ 25.00", Price3: "-", Image: "Assets/imgs/ShayminVstar.jpg", Category: getCardCategory("Shaymin Vstar") },
-  { Name: "Shaymin Vstar Rainbow", SerialNumber: "173/172", Textured: "No", Price1: "R$ 30.97", Price2: "R$ 35.00", Price3: "-", Image: "Assets/imgs/ShayminVstarRWB.jpg", Category: getCardCategory("Shaymin Vstar Rainbow") },
-  //1.2.0
-  { Name: "Arceus Vstar", SerialNumber: "123/172", Textured: "No", Price1: "R$ 46.20", Price2: "R$ 118.89", Price3: "-", Image: "Assets/imgs/ArceusVstar.jpg", Category: getCardCategory("Arceus Vstar") },
-  { Name: "Origin-Forme Palkia Vstar", SerialNumber: "040/189", Textured: "No", Price1: "R$ 40.00", Price2: "-", Price3: "-", Image: "Assets/imgs/OriginFormePalkiaVstar.jpg", Category: getCardCategory("Origin-Forme Palkia Vstar") },
-  { Name: "Hisuian Typhlosion Vstar", SerialNumber: "054/189", Textured: "No", Price1: "R$ 20.98", Price2: "R$ 25.90", Price3: "-", Image: "Assets/imgs/HisuianTyphlosionVstar.jpg", Category: getCardCategory("Hisuian Typhlosion Vstar") },
-  { Name: "Darkrai Vstar", SerialNumber: "GG50/GG70", Textured: "No", Price1: "R$ 434.90", Price2: "R$ 564.24", Price3: "R$ 650.00", Image: "Assets/imgs/DarkraiVstar.jpg", Category: getCardCategory("Darkrai Vstar") },
-  { Name: "Pikachu Vmax Rainbow", SerialNumber: "188/185", Textured: "Yes", Price1: "R$ 1166.22", Price2: "R$ 1600.00", Price3: "-", Image: "Assets/imgs/PikachuVmaxRWB.jpg", Category: getCardCategory("Pikachu Vmax") },
-  { Name: "Leafeon Vmax", SerialNumber: "205/203", Textured: "No", Price1: "R$ 1899.90", Price2: "R$ 3133.16", Price3: "R$ 8900.00", Image: "Assets/imgs/LeafeonVmax.jpg", Category: getCardCategory("Leafeon Vmax") },
-  { Name: "Salamence Vmax", SerialNumber: "144/189", Textured: "Yes", Price1: "R$ 45.00", Price2: "-", Price3: "-", Image: "Assets/imgs/SalamenceVmax.jpg", Category: getCardCategory("Salamence Vmax") },
-  { Name: "Lunala Gx", SerialNumber: "141/149", Textured: "Yes", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/LunalaGx.jpg", Category: getCardCategory("Lunala Gx") },
-  { Name: "Solgaleo Gx", SerialNumber: "143/149", Textured: "Yes", Price1: "R$ 34.60", Price2: "R$ 49.99", Price3: "-", Image: "Assets/imgs/SolgaleoGx.jpg", Category: getCardCategory("Solgaleo Gx") },
-  { Name: "Gardevoir Gx", SerialNumber: "93/147", Textured: "No", Price1: "R$ 45.24", Price2: "R$ 151.91", Price3: "-", Image: "Assets/imgs/GardevoirGx.jpg", Category: getCardCategory("Gardevoir Gx") },
-  { Name: "Sylveon Gx", SerialNumber: "92/145", Textured: "No", Price1: "R$ 86.29", Price2: "R$ 88.00", Price3: "R$ 284.91", Image: "Assets/imgs/SylveonGx.jpg", Category: getCardCategory("Sylveon Gx") },
-  { Name: "Glaceon Gx", SerialNumber: "39/156", Textured: "No", Price1: "R$ 58.77", Price2: "R$ 101.00", Price3: "-", Image: "Assets/imgs/GlaceonGx.jpg", Category: getCardCategory("Glaceon Gx") },
-  { Name: "Espeon Gx", SerialNumber: "61/149", Textured: "No", Price1: "R$ 74.90", Price2: "-", Price3: "-", Image: "Assets/imgs/EspeonGx.jpg", Category: getCardCategory("Espeon Gx") },
-  { Name: "Umbreon Gx", SerialNumber: "80/149", Textured: "No", Price1: "R$ 20.00", Price2: "R$ 53.57", Price3: "R$ 80.00", Image: "Assets/imgs/UmbreonGx.jpg", Category: getCardCategory("Umbreon Gx") },
-  { Name: "Mewtwo Gx", SerialNumber: "78/73", Textured: "Yes", Price1: "R$ 849.90", Price2: "R$ 2364.40", Price3: "R$ 4000.00", Image: "Assets/imgs/MewtwoGx.jpg", Category: getCardCategory("Mewtwo Gx") },
-  { Name: "Lucario V", SerialNumber: "027/073", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/LucarioV.jpg", Category: getCardCategory("Lucario V") },
-  { Name: "Zacian V", SerialNumber: "016/025", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/ZacianV.jpg", Category: getCardCategory("Zacian V") },
-  { Name: "Mimikyu V", SerialNumber: "068/172", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/MimikyuV.jpg", Category: getCardCategory("Mimikyu V") },
-  { Name: "Crobat V", SerialNumber: "104/189", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/CrobatV.jpg", Category: getCardCategory("Crobat V") },
-  { Name: "Morpeko V", SerialNumber: "079/202", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/MorpekoV.jpg", Category: getCardCategory("Morpeko V") },
-  { Name: "Cinderace VMAX", SerialNumber: "019/072", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/CinderaceVmax.jpg", Category: getCardCategory("Cinderace VMAX") },
-  { Name: "Rillaboom VMAX", SerialNumber: "018/192", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/RillaboomVmax.jpg", Category: getCardCategory("Rillaboom VMAX") },
-  { Name: "Inteleon VMAX", SerialNumber: "050/192", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/InteleonVmax.jpg", Category: getCardCategory("Inteleon VMAX") },
-  //1.3.0
-// 1.3.0
-  { Name: "Lugia Break", SerialNumber: "79/124", Textured: "No", Price1: "R$ 69.50", Price2: "-", Price3: "-", Image: "Assets/imgs/LugiaBreak.jpg", Category: getCardCategory("Lugia Break") },
-  { Name: "Greninja Break", SerialNumber: "01/24", Textured: "No", Price1: "R$ 94.90", Price2: "-", Price3: "-", Image: "Assets/imgs/GreninjaBreak.jpg", Category: getCardCategory("Greninja Break") },
-  { Name: "Starmie Break", SerialNumber: "32/108", Textured: "No", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/StarmieBreak.jpg", Category: getCardCategory("Starmie Break") },
-  { Name: "Ho-Oh Break", SerialNumber: "XY154/∞", Textured: "No", Price1: "R$ 199.50", Price2: "-", Price3: "-", Image: "Assets/imgs/HoohBreak.jpg", Category: getCardCategory("Ho-Oh Break") },
-  { Name: "Luxray Break", SerialNumber: "47/122", Textured: "No", Price1: "R$ 40.00", Price2: "-", Price3: "-", Image: "Assets/imgs/LuxrayBreak.jpg", Category: "BREAK" },
-  { Name: "Crobat Break", SerialNumber: "XY181/∞", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/GreninjaBreak.jpg", Category: "BREAK" },
-  { Name: "Arcanine Break", SerialNumber: "XY180/∞", Textured: "No", Price1: "R$ 35.00", Price2: "-", Price3: "-", Image: "Assets/imgs/ArcanineBreak.jpg", Category: getCardCategory("BREAK") },
-  { Name: "Beheeyem Break", SerialNumber: "XY135/∞", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/BeheeyemBreak.jpg", Category: getCardCategory("BREAK") },
-  { Name: "Aegislash Vmax", SerialNumber: "127/185", Textured: "Yes", Price1: "R$ 30.00", Price2: "-", Price3: "-", Image: "Assets/imgs/AegislashVmax.jpg", Category: getCardCategory("Vmax") },
-  { Name: "Aegislash Vmax Rainbow", SerialNumber: "190/185", Textured: "Yes", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/AegislashVmaxRWB.jpg", Category: getCardCategory("Vmax") },
-  { Name: "AggronVmax", SerialNumber: "97/172", Textured: "Yes", Price1: "R$ 22.48", Price2: "R$ 24.99", Price3: "-", Image: "Assets/imgs/AggronVmax.jpg", Category: getCardCategory("Vmax") },
-  { Name: "Aerodacty Vstar", SerialNumber: "093/196", Textured: "No", Price1: "R$ 29.50", Price2: "-", Price3: "-", Image: "Assets/imgs/AerodactyVstar.jpg", Category: getCardCategory("Vstar") },
-  { Name: "Aerodacty Vstar Rainbow", SerialNumber: "199/196", Textured: "No", Price1: "R$ 61.90", Price2: "R$ 99.99", Price3: "-", Image: "Assets/imgs/AerodactyVstarRWB.jpg", Category: getCardCategory("Vstar") },
-  { Name: "Arceus Vstar Golden", SerialNumber: "184/172", Textured: "Yes", Price1: "R$ 118.63", Price2: "R$ 177.65", Price3: "-", Image: "Assets/imgs/ArceusVstarGolden.jpg", Category: getCardCategory("Vstar") },
-  { Name: "Arceus Vstar Rainbow", SerialNumber: "176/172", Textured: "No", Price1: "R$ 99.90", Price2: "R$ 117.18", Price3: "R$ 151.41", Image: "Assets/imgs/ArceusVstarRWB.jpg", Category: getCardCategory("Vstar") },
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+const rawPokemons = [
+  // --- Scarlet & Violet ---
+  { Name: "Bulbasaur", SerialNumber: "166/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 480.00", Price2: "R$ 900.00", Price3: "-", Image: "Assets/imgs/Bulbasaur.jpg" },
+  { Name: "Ivysaur", SerialNumber: "167/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 374.39", Price2: "R$ 2199.00", Price3: "-", Image: "Assets/imgs/Ivysaur.jpg" },
+  { Name: "Venusaur Ex", SerialNumber: "198/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 700.00", Price2: "R$ 1200.21", Price3: "R$ 1850.00", Image: "Assets/imgs/VenusaurEx.jpg" },
+  { Name: "Charmander", SerialNumber: "168/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 319.90", Price2: "R$ 559.45", Price3: "R$ 1499.00", Image: "Assets/imgs/Charmander.jpg" },
+  { Name: "Charmeleon", SerialNumber: "169/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 240.00", Price2: "R$ 646.53", Price3: "R$ 1500.00", Image: "Assets/imgs/Charmeleon.jpg" },
+  { Name: "Charizard Ex", SerialNumber: "199/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 1400.00", Price2: "R$ 3130.76", Price3: "R$ 8999.90", Image: "Assets/imgs/CharizardEx.jpg" },
+  { Name: "Squirtle", SerialNumber: "170/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 140.00", Price2: "R$ 417.38", Price3: "R$ 799.00", Image: "Assets/imgs/Squirtle.jpg" },
+  { Name: "Wartortle", SerialNumber: "171/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 324.90", Price2: "R$ 570.56", Price3: "R$ 699.90", Image: "Assets/imgs/Wartortle.jpg" },
+  { Name: "Blastoise Ex", SerialNumber: "200/165", Set: "Scarlet & Violet: 151", Textured: "No", Price1: "R$ 699.80", Price2: "R$ 1102.14", Price3: "R$ 1999.00", Image: "Assets/imgs/BlastoiseEx.jpg" },
+  { Name: "Eevee Ex", SerialNumber: "167/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 339.99", Price2: "R$ 622.31", Price3: "R$ 899.90", Image: "Assets/imgs/EeveeEx.jpg" },
+  { Name: "Vaporeon Ex", SerialNumber: "149/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 1299.90", Price2: "R$ 1899.90", Price3: "-", Image: "Assets/imgs/VaporeonEx.jpg" },
+  { Name: "Jolteon Ex", SerialNumber: "153/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 752.15", Price2: "R$ 2000.00", Price3: "-", Image: "Assets/imgs/JolteonEx.jpg" },
+  { Name: "Flareon Ex", SerialNumber: "146/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 1399.90", Price2: "R$ 1800.00", Price3: "-", Image: "Assets/imgs/FlareonEx.jpg" },
+  { Name: "Espeon Ex", SerialNumber: "155/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 875.00", Price2: "R$ 1143.26", Price3: "R$ 1999.90", Image: "Assets/imgs/EspeonEx.jpg" },
+  { Name: "Umbreon Ex", SerialNumber: "161/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 2400.00", Price2: "R$ 4575.35", Price3: "R$ 7999.99", Image: "Assets/imgs/UmbreonEx.jpg" },
+  { Name: "Leafeon Ex", SerialNumber: "144/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 849.00", Price2: "R$ 1235.89", Price3: "R$ 2300.00", Image: "Assets/imgs/LeafeonEx.jpg" },
+  { Name: "Glaceon Ex", SerialNumber: "150/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 595.00", Price2: "R$ 1231.98", Price3: "R$ 5000.00", Image: "Assets/imgs/GlaceonEx.jpg" },
+  { Name: "Sylveon Ex", SerialNumber: "156/131", Set: "Prismatic Evolutions", Textured: "No", Price1: "R$ 1995.00", Price2: "R$ 2465.69", Price3: "R$ 3999.90", Image: "Assets/imgs/SylveonEx.jpg" },
+
+  // --- Crown Zenith ---
+  { Name: "Turtwig", SerialNumber: "GG31/GG70", Set: "Crown Zenith", Textured: "No", Price1: "R$ 65.00", Price2: "R$ 104.46", Price3: "R$ 129.99", Image: "Assets/imgs/Turtwig.jpg" },
+  { Name: "Darkrai Vstar", SerialNumber: "GG50/GG70", Set: "Crown Zenith", Textured: "No", Price1: "R$ 434.90", Price2: "R$ 564.24", Price3: "R$ 650.00", Image: "Assets/imgs/DarkraiVstar.jpg" },
+
+  // --- Black/White Flare ---
+  { Name: "Reshiram Ex", SerialNumber: "173/086", Set: "White Flare", Textured: "Yes", Price1: "R$ 1150.00", Price2: "R$ 1384.97", Price3: "R$ 1800.00", Image: "Assets/imgs/ReshiramEx.jpg" },
+  { Name: "Victini", SerialNumber: "172a/086", Set: "Black Flare", Textured: "Yes", Price1: "R$ 1450.00", Price2: "R$ 1769.62", Price3: "R$ 3499.90", Image: "Assets/imgs/Victini.jpg" },
+  { Name: "Zekrom Ex", SerialNumber: "172b/086", Set: "Black Flare", Textured: "Yes", Price1: "R$ 1343.00", Price2: "R$ 1893.93", Price3: "R$ 5000.00", Image: "Assets/imgs/ZekromEx.jpg" },
+  { Name: "Meloetta Ex", SerialNumber: "167/086", Set: "White Flare", Textured: "No", Price1: "R$ 244.68", Price2: "R$ 399.90", Price3: "-", Image: "Assets/imgs/MeloettaEx.jpg" },
+  { Name: "Kyurem Ex", SerialNumber: "157/086", Set: "White Flare", Textured: "Yes", Price1: "R$ 142.90", Price2: "-", Price3: "-", Image: "Assets/imgs/KyuremEx.jpg" },
+  { Name: "Serperior Ex", SerialNumber: "164/086", Set: "Black Flare", Textured: "No", Price1: "R$ 293.14", Price2: "R$ 499.99", Price3: "-", Image: "Assets/imgs/SerperiorEx.jpg" },
+  { Name: "Emboar", SerialNumber: "98/086", Set: "White Flare", Textured: "No", Price1: "R$ 120.00", Price2: "R$ 249.00", Price3: "-", Image: "Assets/imgs/EmboarEx.jpg" },
+  { Name: "Samurott", SerialNumber: "107/086", Set: "White Flare", Textured: "No", Price1: "R$ 229.90", Price2: "-", Price3: "-", Image: "Assets/imgs/SamurottEx.jpg" },
+
+  // --- Mega Evolution ---
+  { Name: "Shuckle", SerialNumber: "136/132", Set: "Mega Evolution", Textured: "No", Price1: "R$ 124.90", Price2: "-", Price3: "-", Image: "Assets/imgs/Shuckle.jpg" },
+  { Name: "Vulpix", SerialNumber: "138/132", Set: "Mega Evolution", Textured: "No", Price1: "R$ 147.40", Price2: "R$ 154.90", Price3: "R$ 155.00", Image: "Assets/imgs/Vulpix.jpg" },
+  { Name: "Mega Clefable Ex", SerialNumber: "031/088", Set: "Mega Evolution", Textured: "Yes", Price1: "R$ 20.00", Price2: "R$ 48.00", Price3: "-", Image: "Assets/imgs/MegaClefableEx.jpg" },
+  { Name: "Dedenne", SerialNumber: "093/088", Set: "Mega Evolution", Textured: "No", Price1: "R$ 38.11", Price2: "R$ 90.00", Price3: "-", Image: "Assets/imgs/Dedenne.jpg" },
+  { Name: "Mega Charizard X Ex", SerialNumber: "29/∞", Set: "Mega Evolution", Textured: "Yes", Price1: "R$ 44.17", Price2: "R$ 100.00", Price3: "-", Image: "Assets/imgs/MegaCharizardXEx.jpg" },
+
+  // --- Sword & Shield ---
+  { Name: "Rayquaza V", SerialNumber: "110/203", Set: "Evolving Skies", Textured: "No", Price1: "R$ 20.00", Price2: "-", Price3: "-", Image: "Assets/imgs/RayquazaV.jpg" },
+  { Name: "Umbreon V", SerialNumber: "094/203", Set: "Evolving Skies", Textured: "No", Price1: "R$ 33.90", Price2: "R$ 99.90", Price3: "-", Image: "Assets/imgs/UmbreonV.jpg" },
+  { Name: "Rayquaza Vmax", SerialNumber: "111/203", Set: "Evolving Skies", Textured: "Yes", Price1: "R$ 51.95", Price2: "R$ 93.74", Price3: "R$ 500.00", Image: "Assets/imgs/RayquazaVmax.jpg" },
+  { Name: "Umbreon Vmax", SerialNumber: "095/203", Set: "Evolving Skies", Textured: "Yes", Price1: "R$ 179.72", Price2: "R$ 329.90", Price3: "-", Image: "Assets/imgs/UmbreonVmax.jpg" },
+  { Name: "Leafeon Vmax", SerialNumber: "205/203", Set: "Evolving Skies", Textured: "No", Price1: "R$ 1899.90", Price2: "R$ 3133.16", Price3: "R$ 8900.00", Image: "Assets/imgs/LeafeonVmax.jpg" },
+  { Name: "Umbreon VMAX Alt Art", SerialNumber: "215/203", Set: "Evolving Skies", Textured: "Yes", Price1: "R$ 11640.00", Price2: "R$ 17999.95", Price3: "-", Image: "Assets/imgs/Moonbreon.jpg" },
+  { Name: "Mew V", SerialNumber: "113/264", Set: "Fusion Strike", Textured: "No", Price1: "R$ 75.00", Price2: "-", Price3: "-", Image: "Assets/imgs/MewV.jpg" },
+  { Name: "Gengar V", SerialNumber: "156/264", Set: "Fusion Strike", Textured: "No", Price1: "R$ 120.00", Price2: "-", Price3: "-", Image: "Assets/imgs/GengarV.jpg" },
+  { Name: "Mew Vmax", SerialNumber: "114/264", Set: "Fusion Strike", Textured: "Yes", Price1: "R$ 67.84", Price2: "R$ 189.50", Price3: "-", Image: "Assets/imgs/MewVmax.jpg" },
+  { Name: "Shaymin Vstar", SerialNumber: "14/172", Set: "Brilliant Stars", Textured: "No", Price1: "R$ 17.35", Price2: "R$ 25.00", Price3: "-", Image: "Assets/imgs/ShayminVstar.jpg" },
+  { Name: "Shaymin Vstar Rainbow", SerialNumber: "173/172", Set: "Brilliant Stars", Textured: "No", Price1: "R$ 30.97", Price2: "R$ 35.00", Price3: "-", Image: "Assets/imgs/ShayminVstarRWB.jpg" },
+  { Name: "Arceus Vstar", SerialNumber: "123/172", Set: "Brilliant Stars", Textured: "No", Price1: "R$ 46.20", Price2: "R$ 118.89", Price3: "-", Image: "Assets/imgs/ArceusVstar.jpg" },
+  { Name: "Arceus Vstar Golden", SerialNumber: "184/172", Set: "Brilliant Stars", Textured: "Yes", Price1: "R$ 118.63", Price2: "R$ 177.65", Price3: "-", Image: "Assets/imgs/ArceusVstarGolden.jpg" },
+  { Name: "Arceus Vstar Rainbow", SerialNumber: "176/172", Set: "Brilliant Stars", Textured: "No", Price1: "R$ 99.90", Price2: "R$ 117.18", Price3: "R$ 151.41", Image: "Assets/imgs/ArceusVstarRWB.jpg" },
+  { Name: "Mimikyu V", SerialNumber: "068/172", Set: "Brilliant Stars", Textured: "No", Price1: "R$ 103.18", Price2: "R$ 119.50", Price3: "-", Image: "Assets/imgs/MimikyuV.jpg" },
+  { Name: "Aggron Vmax", SerialNumber: "97/172", Set: "Brilliant Stars", Textured: "Yes", Price1: "R$ 22.48", Price2: "R$ 24.99", Price3: "-", Image: "Assets/imgs/AggronVmax.jpg" },
+  { Name: "Giratina Vstar", SerialNumber: "131/196", Set: "Lost Origin", Textured: "No", Price1: "R$ 74.85", Price2: "-", Price3: "-", Image: "Assets/imgs/GiratinaVstar.jpg" },
+  { Name: "Aerodactyl Vstar", SerialNumber: "093/196", Set: "Lost Origin", Textured: "No", Price1: "R$ 29.50", Price2: "-", Price3: "-", Image: "Assets/imgs/AerodactyVstar.jpg" },
+  { Name: "Aerodactyl Vstar Rainbow", SerialNumber: "199/196", Set: "Lost Origin", Textured: "No", Price1: "R$ 61.90", Price2: "R$ 99.99", Price3: "-", Image: "Assets/imgs/AerodactyVstarRWB.jpg" },
+  { Name: "Giratina V Alt Art", SerialNumber: "186/196", Set: "Lost Origin", Textured: "Yes", Price1: "R$ 850.00", Price2: "R$ 2189.29", Price3: "R$ 4999.90", Image: "Assets/imgs/GiratinaVAlt.jpg" },
+  { Name: "Celebi V", SerialNumber: "007/198", Set: "Chilling Reign", Textured: "No", Price1: "R$ 19.99", Price2: "-", Price3: "-", Image: "Assets/imgs/CelebiV.jpg" },
+  { Name: "Pikachu Vmax", SerialNumber: "44/185", Set: "Vivid Voltage", Textured: "Yes", Price1: "R$ 499.00", Price2: "-", Price3: "-", Image: "Assets/imgs/PikachuVmax.jpg" },
+  { Name: "Pikachu Vmax Rainbow", SerialNumber: "188/185", Set: "Vivid Voltage", Textured: "Yes", Price1: "R$ 1166.22", Price2: "R$ 1600.00", Price3: "-", Image: "Assets/imgs/PikachuVmaxRWB.jpg" },
+  { Name: "Aegislash Vmax", SerialNumber: "127/185", Set: "Vivid Voltage", Textured: "Yes", Price1: "R$ 30.00", Price2: "-", Price3: "-", Image: "Assets/imgs/AegislashVmax.jpg" },
+  { Name: "Aegislash Vmax Rainbow", SerialNumber: "190/185", Set: "Vivid Voltage", Textured: "Yes", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/AegislashVmaxRWB.jpg" },
+  { Name: "Origin-Forme Palkia Vstar", SerialNumber: "040/189", Set: "Astral Radiance", Textured: "No", Price1: "R$ 40.00", Price2: "-", Price3: "-", Image: "Assets/imgs/OriginFormePalkiaVstar.jpg" },
+  { Name: "Hisuian Typhlosion Vstar", SerialNumber: "054/189", Set: "Astral Radiance", Textured: "No", Price1: "R$ 20.98", Price2: "R$ 25.90", Price3: "-", Image: "Assets/imgs/HisuianTyphlosionVstar.jpg" },
+  { Name: "Salamence Vmax", SerialNumber: "144/189", Set: "Darkness Ablaze", Textured: "Yes", Price1: "R$ 45.00", Price2: "-", Price3: "-", Image: "Assets/imgs/SalamenceVmax.jpg" },
+  { Name: "Crobat V", SerialNumber: "104/189", Set: "Darkness Ablaze", Textured: "No", Price1: "R$ 15.00", Price2: "-", Price3: "-", Image: "Assets/imgs/CrobatV.jpg" },
+  { Name: "Malamar Vmax", SerialNumber: "198/192", Set: "Rebel Clash", Textured: "Yes", Price1: "R$ 59.89", Price2: "R$ 149.90", Price3: "-", Image: "Assets/imgs/MalamarVmax.jpg" },
+  { Name: "Milotic V", SerialNumber: "043/192", Set: "Rebel Clash", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/MiloticV.jpg" },
+  { Name: "Rillaboom VMAX", SerialNumber: "018/192", Set: "Rebel Clash", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/RillaboomVmax.jpg" },
+  { Name: "Inteleon VMAX", SerialNumber: "050/192", Set: "Rebel Clash", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/InteleonVmax.jpg" },
+  { Name: "Charizard Vmax", SerialNumber: "20/189", Set: "Darkness Ablaze", Textured: "Yes", Price1: "R$ 221.02", Price2: "R$ 349.50", Price3: "-", Image: "Assets/imgs/CharizardVmax.jpg" },
+  { Name: "Eternatus Vmax", SerialNumber: "117/189", Set: "Darkness Ablaze", Textured: "Yes", Price1: "R$ 49.99", Price2: "R$ 51.26", Price3: "-", Image: "Assets/imgs/EternatusVmax.jpg" },
+  { Name: "Galarian Moltres V", SerialNumber: "097/198", Set: "Chilling Reign", Textured: "No", Price1: "R$ 25.64", Price2: "R$ 55.00", Price3: "-", Image: "Assets/imgs/GalarianMoltresV.jpg" },
+  { Name: "Charizard Vmax Rainbow", SerialNumber: "74/73", Set: "Champions Path", Textured: "Yes", Price1: "R$ 1999.90", Price2: "R$ 3549.98", Price3: "R$ 9500.00", Image: "Assets/imgs/CharizardVmaxRWB.jpg" },
+  { Name: "Lucario V", SerialNumber: "027/073", Set: "Champions Path", Textured: "No", Price1: "R$ 29.90", Price2: "-", Price3: "-", Image: "Assets/imgs/LucarioV.jpg" },
+  { Name: "Cinderace VMAX", SerialNumber: "019/072", Set: "Shining Fates", Textured: "No", Price1: "R$ 0.00", Price2: "-", Price3: "-", Image: "Assets/imgs/CinderaceVmax.jpg" },
+  { Name: "Zacian V", SerialNumber: "016/025", Set: "Celebrations", Textured: "No", Price1: "R$ 44.90", Price2: "-", Price3: "-", Image: "Assets/imgs/ZacianV.jpg" },
+  { Name: "Dragonite V", SerialNumber: "049/078", Set: "Pokémon GO", Textured: "No", Price1: "R$ 77.48", Price2: "R$ 120.00", Price3: "-", Image: "Assets/imgs/DragoniteV.jpg" },
+  { Name: "Morpeko V", SerialNumber: "079/202", Set: "Sword & Shield Base Set", Textured: "No", Price1: "R$ 9.50", Price2: "-", Price3: "-", Image: "Assets/imgs/MorpekoV.jpg" },
+  { Name: "Vaporeon V", SerialNumber: "SWSH181/71", Set: "SWSH Promos", Textured: "Yes", Price1: "R$ 226.17", Price2: "R$ 800.00", Price3: "-", Image: "Assets/imgs/VaporeonV.jpg" },
+
+  // --- Sun & Moon ---
+  { Name: "Lunala Gx", SerialNumber: "141/149", Set: "Sun & Moon Base Set", Textured: "Yes", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/LunalaGx.jpg" },
+  { Name: "Solgaleo Gx", SerialNumber: "143/149", Set: "Sun & Moon Base Set", Textured: "Yes", Price1: "R$ 34.60", Price2: "R$ 49.99", Price3: "-", Image: "Assets/imgs/SolgaleoGx.jpg" },
+  { Name: "Espeon Gx", SerialNumber: "61/149", Set: "Sun & Moon Base Set", Textured: "No", Price1: "R$ 74.90", Price2: "-", Price3: "-", Image: "Assets/imgs/EspeonGx.jpg" },
+  { Name: "Umbreon Gx", SerialNumber: "80/149", Set: "Sun & Moon Base Set", Textured: "No", Price1: "R$ 20.00", Price2: "R$ 53.57", Price3: "R$ 80.00", Image: "Assets/imgs/UmbreonGx.jpg" },
+  { Name: "Charizard Gx", SerialNumber: "20/147", Set: "Burning Shadows", Textured: "No", Price1: "R$ 39.90", Price2: "R$ 68.72", Price3: "R$ 109.50", Image: "Assets/imgs/CharizardGx.jpg" },
+  { Name: "Gardevoir Gx", SerialNumber: "93/147", Set: "Burning Shadows", Textured: "No", Price1: "R$ 45.24", Price2: "R$ 151.91", Price3: "-", Image: "Assets/imgs/GardevoirGx.jpg" },
+  { Name: "Sylveon Gx", SerialNumber: "92/145", Set: "Guardians Rising", Textured: "No", Price1: "R$ 86.29", Price2: "R$ 88.00", Price3: "R$ 284.91", Image: "Assets/imgs/SylveonGx.jpg" },
+  { Name: "Glaceon Gx", SerialNumber: "39/156", Set: "Ultra Prism", Textured: "No", Price1: "R$ 58.77", Price2: "R$ 101.00", Price3: "-", Image: "Assets/imgs/GlaceonGx.jpg" },
+  { Name: "Rayquaza Gx", SerialNumber: "177/168", Set: "Celestial Storm", Textured: "Yes", Price1: "R$ 280.00", Price2: "R$ 758.90", Price3: "R$ 1999.95", Image: "Assets/imgs/RayquazaGX.jpg" },
+  { Name: "Pikachu & Zekrom Gx", SerialNumber: "33/181", Set: "Team Up", Textured: "No", Price1: "R$ 236.55", Price2: "R$ 263.90", Price3: "R$ 599.99", Image: "Assets/imgs/PikachuZekromGX.jpg" },
+  { Name: "Dedenne Gx", SerialNumber: "57/214", Set: "Unbroken Bonds", Textured: "No", Price1: "R$ 35.00", Price2: "-", Price3: "-", Image: "Assets/imgs/DedenneGX.jpg" },
+  { Name: "Mewtwo & Mew Gx", SerialNumber: "71/236", Set: "Unified Minds", Textured: "No", Price1: "R$ 119.90", Price2: "R$ 239.94", Price3: "R$ 850.00", Image: "Assets/imgs/MewtwoMewGX.jpg" },
+  { Name: "Mewtwo & Mew Gx Full Art", SerialNumber: "222/236", Set: "Unified Minds", Textured: "Yes", Price1: "R$ 636.51", Price2: "R$ 2900.00", Price3: "-", Image: "Assets/imgs/MewtwoMewGXFull.jpg" },
+  { Name: "Mewtwo Gx", SerialNumber: "78/73", Set: "Shining Legends", Textured: "Yes", Price1: "R$ 849.90", Price2: "R$ 2364.40", Price3: "R$ 4000.00", Image: "Assets/imgs/MewtwoGx.jpg" },
+  { Name: "Tapu Bulu Gx", SerialNumber: "SM32/250", Set: "SM Promos", Textured: "No", Price1: "R$ 8.52", Price2: "R$ 18.00", Price3: "R$ 20.00", Image: "Assets/imgs/TabuBuluGX.jpg" },
+
+  // --- XY Era ---
+  { Name: "Lugia Break", SerialNumber: "79/124", Set: "Fates Collide", Textured: "No", Price1: "R$ 69.50", Price2: "-", Price3: "-", Image: "Assets/imgs/LugiaBreak.jpg" },
+  { Name: "Luxray Break", SerialNumber: "47/122", Set: "BREAKpoint", Textured: "No", Price1: "R$ 40.00", Price2: "-", Price3: "-", Image: "Assets/imgs/LuxrayBreak.jpg" },
+  { Name: "Starmie Break", SerialNumber: "32/108", Set: "Evolutions", Textured: "No", Price1: "R$ 59.99", Price2: "-", Price3: "-", Image: "Assets/imgs/StarmieBreak.jpg" },
+  { Name: "Black Kyurem Ex", SerialNumber: "048/191", Set: "XY Promos", Textured: "No", Price1: "R$ 12.90", Price2: "R$ 16.80", Price3: "-", Image: "Assets/imgs/KyuremPretoEx.jpg" },
+  { Name: "Greninja Break", SerialNumber: "01/24", Set: "XY Promos", Textured: "No", Price1: "R$ 94.90", Price2: "-", Price3: "-", Image: "Assets/imgs/GreninjaBreak.jpg" },
+  { Name: "Ho-Oh Break", SerialNumber: "XY154/∞", Set: "XY Promos", Textured: "No", Price1: "R$ 199.50", Price2: "-", Price3: "-", Image: "Assets/imgs/HoohBreak.jpg" },
+  { Name: "Crobat Break", SerialNumber: "XY181/∞", Set: "XY Promos", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/GreninjaBreak.jpg" },
+  { Name: "Arcanine Break", SerialNumber: "XY180/∞", Set: "XY Promos", Textured: "No", Price1: "R$ 35.00", Price2: "-", Price3: "-", Image: "Assets/imgs/ArcanineBreak.jpg" },
+  { Name: "Beheeyem Break", SerialNumber: "XY135/∞", Set: "XY Promos", Textured: "No", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/imgs/BeheeyemBreak.jpg" },
+  { Name: "M Charizard Ex Full Art", SerialNumber: "108/106", Set: "Flashfire", Textured: "Yes", Price1: "R$ 2290.00", Price2: "R$ 2890.00", Price3: "-", Image: "Assets/imgs/MCharizardEXFlashfire.png" },
+
+  // --- Scarlet & Violet: Special Promos ---
+  { Name: "Iono's Bellibolt Ex", SerialNumber: "194/∞", Set: "SV Promos", Textured: "Yes", Price1: "R$ 23.74", Price2: "R$ 39.50", Price3: "-", Image: "Assets/imgs/BelliboltEXdaKissera.jpg" },
+
+  // --- Coins ---
+  { Name: "Silver Cetoddle Coin", SerialNumber: "-", Set: "Scarlet & Violet", Textured: "No", Price1: "R$ 27.27", Price2: "R$ 30.00", Price3: "-", Image: "Assets/cimgs/CetoddleCoin.jpg" },
+  { Name: "Purple Rainbow Mewtwo Coin", SerialNumber: "-", Set: "Sword & Shield", Textured: "Yes", Price1: "R$ 29.75", Price2: "R$ 31.50", Price3: "-", Image: "Assets/cimgs/MewtwoCoin.jpg" },
+  { Name: "Silver Rainbow Arceus Coin", SerialNumber: "-", Set: "Brilliant Stars", Textured: "Yes", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/cimgs/ArceusCoin.jpg" },
+  { Name: "Blue Blastoise Coin", SerialNumber: "-", Set: "Classic Collection", Textured: "No", Price1: "R$ 23.72", Price2: "R$ 30.00", Price3: "-", Image: "Assets/cimgs/BlueBlastoiseCoin.jpg" },
+  { Name: "Silver Rainbow Dialga Coin", SerialNumber: "-", Set: "Astral Radiance", Textured: "Yes", Price1: "R$ 30.00", Price2: "-", Price3: "-", Image: "Assets/cimgs/DialgaCoin.jpg" },
+  { Name: "Bronze Rainbow Kleavor Coin", SerialNumber: "-", Set: "Astral Radiance", Textured: "Yes", Price1: "R$ 29.99", Price2: "-", Price3: "-", Image: "Assets/cimgs/KleavorCoin.jpg" },
+  { Name: "Pink Glitter Mew Coin", SerialNumber: "-", Set: "Fusion Strike", Textured: "Yes", Price1: "R$ 169.99", Price2: "-", Price3: "-", Image: "Assets/cimgs/MewCoin.jpg" },
+  { Name: "Gold Venusaur Coin", SerialNumber: "-", Set: "Classic Collection", Textured: "No", Price1: "R$ 30.00", Price2: "-", Price3: "-", Image: "Assets/cimgs/VenusaurCoin1.jpg" },
+  { Name: "Green Venusaur Coin", SerialNumber: "-", Set: "Classic Collection", Textured: "Yes", Price1: "R$ 27.38", Price2: "R$ 40.00", Price3: "-", Image: "Assets/cimgs/VenusaurCoin2.jpg" },
+  { Name: "Silver Rainbow Palkia Coin", SerialNumber: "-", Set: "Astral Radiance", Textured: "No", Price1: "R$ 49.99", Price2: "-", Price3: "-", Image: "Assets/cimgs/PalkiaCoin.jpg" },
+  { Name: "Golden Glitter Lycanroc Coin", SerialNumber: "-", Set: "Sun & Moon", Textured: "Yes", Price1: "R$ 19.99", Price2: "-", Price3: "-", Image: "Assets/cimgs/LycanrocCoin.jpg" },
+  { Name: "Silver Smoking Mega Charizard Y Coin", SerialNumber: "-", Set: "XY Series", Textured: "Yes", Price1: "R$ 43.12", Price2: "R$ 59.99", Price3: "-", Image: "Assets/cimgs/MegaCharizardYCoin.jpg" },
+  { Name: "Silver Confetti Mega Lucario Coin", SerialNumber: "-", Set: "XY Series", Textured: "Yes", Price1: "R$ 40.00", Price2: "R$ 42.50", Price3: "R$ 45.00", Image: "Assets/cimgs/MegaLucarioCoin.jpg" }
 ];
 
+const pokemons = rawPokemons.map((item) => ({
+  ...item,
+  Category: getCardCategory(item.Name)
+}));
+
+shuffleArray(pokemons);
+
 // { Name: "", SerialNumber: "0/0", Textured: "", Price1: "R$", Price2: "R$", Price3: "-", Image: "Assets/imgs/", Category: getCardCategory("") },
+// { Name: "", SerialNumber: "-", Textured: "", Price1: "R$", Price2: "R$", Price3: "-", Image: "Assets/cimgs/", Category: getCardCategory("Coin") },

@@ -1,7 +1,9 @@
 function updateCardCounters() {
     if (typeof pokemons === "undefined") return;
 
-    const totalCards = pokemons.length;
+    const currentDataset = typeof getPageDataset === "function" ? getPageDataset() : pokemons;
+    const totalCards = currentDataset.length;
+    
     const favorites = typeof getFavorites === "function" ? getFavorites() : [];
     const totalFavorites = favorites.length;
 

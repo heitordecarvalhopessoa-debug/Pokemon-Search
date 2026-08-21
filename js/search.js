@@ -61,6 +61,25 @@ function updateActiveFilterBadge(category, texture, fav, sort) {
   }
 }
 
+function getPageDataset() {
+  if (typeof pokemons === "undefined") return [];
+
+  const path = window.location.pathname.toLowerCase();
+
+  if (path.endsWith("coins.html")) {
+    return pokemons.filter((p) => p.Category === "Coin");
+  } else if (path.endsWith("cards.html")) {
+    return pokemons.filter((p) => p.Category !== "Coin");
+  } else {
+    if (!window.homeRandomSelection) {
+      const onlyCards = pokemons.filter((p) => p.Category !== "Coin");
+      const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
+      window.homeRandomSelection = shuffled.slice(0, 6);
+    }
+    return window.homeRandomSelection;
+  }
+}
+
 function filterTable() {
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
@@ -68,9 +87,10 @@ function filterTable() {
   const favFilter = document.getElementById("favFilter");
   const sortOrder = document.getElementById("sortOrder");
 
-  if (!searchInput || typeof pokemons === "undefined") return;
+  const baseData = getPageDataset();
+  if (!baseData) return;
 
-  const term = searchInput.value.toLowerCase().trim();
+  const term = searchInput ? searchInput.value.toLowerCase().trim() : "";
   const selectedCategory = categoryFilter ? categoryFilter.value : "ALL";
   const selectedTexture = textureFilter ? textureFilter.value : "ALL";
   const selectedFav = favFilter ? favFilter.value : "ALL";
@@ -80,12 +100,12 @@ function filterTable() {
     selectedCategory,
     selectedTexture,
     selectedFav,
-    selectedSort,
+    selectedSort
   );
 
   const favorites = typeof getFavorites === "function" ? getFavorites() : [];
 
-  let filtered = pokemons.filter((p) => {
+  let filtered = baseData.filter((p) => {
     const matchesSearch =
       p.Name.toLowerCase().includes(term) ||
       p.SerialNumber.toLowerCase().includes(term);
@@ -114,10 +134,12 @@ function filterTable() {
 
   const resultsCount = document.getElementById("resultsCount");
   if (resultsCount) {
-    resultsCount.innerText = `Showing ${filtered.length} of ${pokemons.length} cards`;
+    resultsCount.innerText = `Showing ${filtered.length} of ${baseData.length} items`;
   }
 
-  renderTable(filtered);
+  if (typeof renderTable === "function") {
+    renderTable(filtered);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -132,6 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (textureFilter) textureFilter.addEventListener("change", filterTable);
   if (favFilter) favFilter.addEventListener("change", filterTable);
   if (sortOrder) sortOrder.addEventListener("change", filterTable);
+
+  const path = window.location.pathname.toLowerCase();
+  const isHome = !path.endsWith("cards.html") && !path.endsWith("coins.html");
+  if (isHome) {
+    const loadBtn = document.getElementById("loadMoreBtn");
+    if (loadBtn) loadBtn.style.display = "none";
+  }
 
   filterTable();
 });

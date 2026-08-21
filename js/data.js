@@ -52,8 +52,8 @@ const rawPokemons = [
   { Name: "Meloetta Ex", SerialNumber: "167/086", Set: "White Flare", Textured: "No", Price1: "R$ 244.68", Price2: "R$ 399.90", Price3: "-", Image: "Assets/imgs/MeloettaEx.jpg" },
   { Name: "Kyurem Ex", SerialNumber: "157/086", Set: "White Flare", Textured: "Yes", Price1: "R$ 142.90", Price2: "-", Price3: "-", Image: "Assets/imgs/KyuremEx.jpg" },
   { Name: "Serperior Ex", SerialNumber: "164/086", Set: "Black Flare", Textured: "No", Price1: "R$ 293.14", Price2: "R$ 499.99", Price3: "-", Image: "Assets/imgs/SerperiorEx.jpg" },
-  { Name: "Emboar", SerialNumber: "98/086", Set: "White Flare", Textured: "No", Price1: "R$ 120.00", Price2: "R$ 249.00", Price3: "-", Image: "Assets/imgs/EmboarEx.jpg" },
-  { Name: "Samurott", SerialNumber: "107/086", Set: "White Flare", Textured: "No", Price1: "R$ 229.90", Price2: "-", Price3: "-", Image: "Assets/imgs/SamurottEx.jpg" },
+  { Name: "Emboar", SerialNumber: "98/086", Set: "White Flare", Textured: "No", Price1: "R$ 120.00", Price2: "R$ 249.00", Price3: "-", Image: "Assets/imgs/Emboar.jpg" },
+  { Name: "Samurott", SerialNumber: "107/086", Set: "White Flare", Textured: "No", Price1: "R$ 229.90", Price2: "-", Price3: "-", Image: "Assets/imgs/Samurott.jpg" },
 
   // --- Mega Evolution ---
   { Name: "Shuckle", SerialNumber: "136/132", Set: "Mega Evolution", Textured: "No", Price1: "R$ 124.90", Price2: "-", Price3: "-", Image: "Assets/imgs/Shuckle.jpg" },

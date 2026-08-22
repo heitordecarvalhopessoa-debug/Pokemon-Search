@@ -64,15 +64,20 @@ function updateActiveFilterBadge(category, texture, fav, sort) {
 function getPageDataset() {
   if (typeof pokemons === "undefined") return [];
 
-  const path = window.location.pathname.toLowerCase();
-
-  if (path.includes("coins.html")) {
+  if (window.PAGE_TYPE === "coins") {
     return pokemons.filter((p) => p.Category === "Coin");
   } 
-  else if (path.includes("cards.html")) {
+  
+  if (window.PAGE_TYPE === "cards") {
     return pokemons.filter((p) => p.Category !== "Coin");
-  } 
-  else {
+  }
+
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes("coins")) {
+    return pokemons.filter((p) => p.Category === "Coin");
+  } else if (path.includes("cards")) {
+    return pokemons.filter((p) => p.Category !== "Coin");
+  } else {
     if (!window.homeRandomSelection) {
       const onlyCards = pokemons.filter((p) => p.Category !== "Coin");
       const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
@@ -158,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (sortOrder) sortOrder.addEventListener("change", filterTable);
 
   const path = window.location.pathname.toLowerCase();
-  const isHome = !path.endsWith("cards.html") && !path.endsWith("coins.html");
+  const isHome = window.PAGE_TYPE !== "cards" && window.PAGE_TYPE !== "coins" && !path.includes("cards") && !path.includes("coins");
   if (isHome) {
     const loadBtn = document.getElementById("loadMoreBtn");
     if (loadBtn) loadBtn.style.display = "none";

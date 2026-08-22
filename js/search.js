@@ -66,15 +66,17 @@ function getPageDataset() {
 
   const path = window.location.pathname.toLowerCase();
 
-  if (path.endsWith("coins.html")) {
+  if (path.includes("coins.html")) {
     return pokemons.filter((p) => p.Category === "Coin");
-  } else if (path.endsWith("cards.html")) {
+  } 
+  else if (path.includes("cards.html")) {
     return pokemons.filter((p) => p.Category !== "Coin");
-  } else {
+  } 
+  else {
     if (!window.homeRandomSelection) {
       const onlyCards = pokemons.filter((p) => p.Category !== "Coin");
       const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
-      window.homeRandomSelection = shuffled.slice(0, 6);
+      window.homeRandomSelection = shuffled.slice(0, 12);
     }
     return window.homeRandomSelection;
   }

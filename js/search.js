@@ -64,27 +64,22 @@ function updateActiveFilterBadge(category, texture, fav, sort) {
 function getPageDataset() {
   if (typeof pokemons === "undefined") return [];
 
-  if (window.PAGE_TYPE === "coins") {
+  const currentUrl = window.location.href.toLowerCase();
+
+  if (currentUrl.includes("coins")) {
     return pokemons.filter((p) => p.Category === "Coin");
   } 
   
-  if (window.PAGE_TYPE === "cards") {
+  if (currentUrl.includes("cards")) {
     return pokemons.filter((p) => p.Category !== "Coin");
-  }
+  } 
 
-  const path = window.location.pathname.toLowerCase();
-  if (path.includes("coins")) {
-    return pokemons.filter((p) => p.Category === "Coin");
-  } else if (path.includes("cards")) {
-    return pokemons.filter((p) => p.Category !== "Coin");
-  } else {
-    if (!window.homeRandomSelection) {
-      const onlyCards = pokemons.filter((p) => p.Category !== "Coin");
-      const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
-      window.homeRandomSelection = shuffled.slice(0, 12);
-    }
-    return window.homeRandomSelection;
+  if (!window.homeRandomSelection) {
+    const onlyCards = pokemons.filter((p) => p.Category !== "Coin");
+    const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
+    window.homeRandomSelection = shuffled.slice(0, 12);
   }
+  return window.homeRandomSelection;
 }
 
 function filterTable() {
@@ -147,6 +142,9 @@ function filterTable() {
   if (typeof renderTable === "function") {
     renderTable(filtered);
   }
+  if (typeof updateCardCounters === "function") {
+    updateCardCounters();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -162,8 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (favFilter) favFilter.addEventListener("change", filterTable);
   if (sortOrder) sortOrder.addEventListener("change", filterTable);
 
-  const path = window.location.pathname.toLowerCase();
-  const isHome = window.PAGE_TYPE !== "cards" && window.PAGE_TYPE !== "coins" && !path.includes("cards") && !path.includes("coins");
+  const currentUrl = window.location.href.toLowerCase();
+  const isHome = !currentUrl.includes("cards") && !currentUrl.includes("coins");
   if (isHome) {
     const loadBtn = document.getElementById("loadMoreBtn");
     if (loadBtn) loadBtn.style.display = "none";

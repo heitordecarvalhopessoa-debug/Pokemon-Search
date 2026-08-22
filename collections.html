@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Search - Pokemons</title>
+    <title>Pokemon Search - Collections</title>
     <link rel="icon" type="image/png" href="Assets/ico/Logo.png">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/filter-drawer.css">
     <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/collections.css">
 </head>
 
 <body>
@@ -19,8 +20,8 @@
             <div class="header-titles">
                 <img src="Assets/ico/Logo.png" alt="Pokemon Search Logo" class="site-logo">
                 <div class="text-group">
-                    <h1>Pokemon Collection</h1>
-                    <h4>All <b>Cards & Coins</b> Pokémon</h4>
+                    <h1>Pokemon Collections</h1>
+                    <h4>Explore cards by <b>Sets & Expansion Collections</b></h4>
                     <nav class="nav-links" style="margin-top: 8px;">
                         <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
                         <a href="pokemons.html" style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
@@ -49,18 +50,26 @@
             </div>
         </header>
 
-        <div class="results-info">
-            <span>Total items: <strong id="totalCardsCount">0</strong></span> |
-            <span>Favorites: <strong id="totalFavsCount">0</strong></span> |
-            <span id="resultsCount">Showing 0 items</span>
-        </div>
+        <div class="collections-container">
+            <aside class="collections-sidebar">
+                <h3>Collections</h3>
+                <ul id="collectionList" class="collection-list"></ul>
+            </aside>
 
-        <div id="cardGrid" class="card-grid"></div>
-        <div id="noResults" class="no-results">
-            No Pokémon found.
-        </div>
-        <div class="load-more-container">
-            <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreCards()">Load More...</button>
+            <main class="collections-content">
+                <div class="collection-header-info">
+                    <h2 id="selectedCollectionTitle" class="collection-title">All Collections</h2>
+                    <div id="resultsCount" class="results-count">Showing 0 items</div>
+                </div>
+
+                <div id="cardGrid" class="card-grid"></div>
+                <div id="noResults" class="no-results">
+                    No Pokémon found for this collection.
+                </div>
+                <div class="load-more-container">
+                    <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreCards()">Load More...</button>
+                </div>
+            </main>
         </div>
     </div>
 
@@ -153,7 +162,6 @@
             </div>
             <div class="currency-body">
                 <p class="modal-subtitle">Choose your preferred currency for display:</p>
-
                 <div class="currency-options">
                     <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
                         <span class="flag">🇧🇷</span> Brazilian Real (R$)
@@ -179,11 +187,67 @@
     <script src="js/credits.js" defer></script>
 
     <script>
+        let selectedCollection = "ALL";
+
+        function renderCollectionSidebar() {
+            if (typeof pokemons === "undefined") return;
+
+            const listContainer = document.getElementById("collectionList");
+            if (!listContainer) return;
+
+            const collectionCounts = {};
+            pokemons.forEach(p => {
+                const setName = p.Set || "Unknown";
+                collectionCounts[setName] = (collectionCounts[setName] || 0) + 1;
+            });
+
+            const sortedSets = Object.keys(collectionCounts).sort((a, b) => a.localeCompare(b));
+
+            listContainer.innerHTML = "";
+
+            const allLi = document.createElement("li");
+            allLi.className = `collection-item ${selectedCollection === "ALL" ? "active" : ""}`;
+            allLi.dataset.set = "ALL";
+            allLi.innerHTML = `
+                <span>All Collections</span>
+                <span class="count-badge">${pokemons.length}</span>
+            `;
+            allLi.onclick = () => selectCollection("ALL", "All Collections");
+            listContainer.appendChild(allLi);
+
+            sortedSets.forEach(setName => {
+                const li = document.createElement("li");
+                li.className = `collection-item ${selectedCollection === setName ? "active" : ""}`;
+                li.dataset.set = setName;
+                li.innerHTML = `
+                    <span>${setName}</span>
+                    <span class="count-badge">${collectionCounts[setName]}</span>
+                `;
+                li.onclick = () => selectCollection(setName, setName);
+                listContainer.appendChild(li);
+            });
+        }
+
+        function selectCollection(setName, displayName) {
+            selectedCollection = setName;
+
+            const titleEl = document.getElementById("selectedCollectionTitle");
+            if (titleEl) titleEl.innerText = displayName;
+
+            const items = document.querySelectorAll(".collection-item");
+            items.forEach(item => {
+                item.classList.toggle("active", item.dataset.set === setName);
+            });
+
+            if (typeof currentPage !== "undefined") currentPage = 1;
+            if (typeof filterTable === "function") filterTable();
+        }
+
         window.addEventListener("load", () => {
-            if (typeof filterTable === "function") {
-                filterTable();
-            }
+            renderCollectionSidebar();
+            if (typeof filterTable === "function") filterTable();
         });
     </script>
 </body>
+
 </html>

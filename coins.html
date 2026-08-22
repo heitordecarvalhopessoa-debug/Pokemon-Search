@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Search - Coins</title>
+    <title>Pokemon Search - Cards</title>
     <link rel="icon" type="image/png" href="Assets/ico/Logo.png">
 
     <link rel="stylesheet" href="css/style.css">
@@ -19,8 +19,8 @@
             <div class="header-titles">
                 <img src="Assets/ico/Logo.png" alt="Pokemon Search Logo" class="site-logo">
                 <div class="text-group">
-                    <h1>Pokemon Coins</h1>
-                    <h4>Only <b>COINS</b> Pokémon</h4>
+                    <h1>Pokemon Cards</h1>
+                    <h4>Only <b>FULLART / EX / GX / V / VMAX / VSTAR / BREAK / VUNION</b> Pokémon</h4>
                     <nav class="nav-links" style="margin-top: 8px;">
                         <a href="index.html" style="margin-right: 15px; font-weight: bold;">Home</a>
                         <a href="cards.html" style="margin-right: 15px; font-weight: bold;">Cards</a>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="header-actions">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search coin name...">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
 
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>
@@ -50,14 +50,14 @@
         </header>
 
         <div class="results-info">
-            <span>Total coins: <strong id="totalCardsCount">0</strong></span> |
+            <span>Total cards: <strong id="totalCardsCount">0</strong></span> |
             <span>Favorites: <strong id="totalFavsCount">0</strong></span> |
-            <span id="resultsCount">Showing 0 coins</span>
+            <span id="resultsCount">Showing 0 cards</span>
         </div>
 
         <div id="cardGrid" class="card-grid"></div>
         <div id="noResults" class="no-results">
-            No Pokémon coins found.
+            No Pokémon found.
         </div>
         <div class="load-more-container">
             <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreCards()">Load More...</button>
@@ -73,6 +73,20 @@
 
         <div class="drawer-body">
             <div class="filter-group">
+                <label for="categoryFilter">Category</label>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="ALL">All Categories</option>
+                    <option value="V">V</option>
+                    <option value="VMAX">VMAX</option>
+                    <option value="VSTAR">VSTAR</option>
+                    <option value="EX">EX</option>
+                    <option value="GX">GX</option>
+                    <option value="BREAK">BREAK</option>
+                    <option value="Other">Others</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
                 <label for="textureFilter">Texture</label>
                 <select id="textureFilter" class="filter-select">
                     <option value="ALL">All Textures</option>
@@ -84,7 +98,7 @@
             <div class="filter-group">
                 <label for="favFilter">Favorites</label>
                 <select id="favFilter" class="filter-select">
-                    <option value="ALL">All Coins</option>
+                    <option value="ALL">All Cards</option>
                     <option value="FAV">Only Favorites</option>
                 </select>
             </div>
@@ -111,7 +125,7 @@
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <img id="modalImg" src="" alt="Pokémon Coin">
+                    <img id="modalImg" src="" alt="Pokémon Card">
                 </div>
                 <div class="modal-info">
                     <h2 id="modalName"></h2>
@@ -156,6 +170,9 @@
 
     <div id="creditsModal" class="modal"></div>
 
+    <script>
+        window.PAGE_TYPE = "cards";
+    </script>
     <script src="js/converter.js" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/renderer.js" defer></script>

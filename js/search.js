@@ -64,15 +64,22 @@ function updateActiveFilterBadge(category, texture, fav, sort) {
 function getPageDataset() {
   if (typeof pokemons === "undefined") return [];
 
-  const currentUrl = window.location.href.toLowerCase();
+  const currentUrl = window.location.pathname.toLowerCase();
 
-  if (currentUrl.includes("pokemons")) {
+  if (currentUrl.includes("collections.html")) {
+    if (selectedCollection === "ALL") {
+      return pokemons;
+    }
+    return pokemons.filter(p => (p.Set || "Unknown") === selectedCollection);
+  }
+
+  if (currentUrl.includes("pokemons.html")) {
     return pokemons;
   } 
 
   if (!window.homeRandomSelection) {
     const shuffled = [...pokemons].sort(() => 0.5 - Math.random());
-    window.homeRandomSelection = shuffled.slice(0, 12);
+    window.homeRandomSelection = shuffled.slice(0, 30)
   }
   return window.homeRandomSelection;
 }

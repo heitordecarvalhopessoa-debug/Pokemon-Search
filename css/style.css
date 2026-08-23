@@ -317,3 +317,36 @@ body {
     transform: translate3d(-50%, 0, 0);
   }
 }
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding: 0;
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+}
+
+.suggestions-list li {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.suggestions-list li:hover {
+  background-color: #f1f3f4;
+}
+
+.suggestions-list li strong {
+  color: #007bff;
+}

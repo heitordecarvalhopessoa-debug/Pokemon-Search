@@ -176,3 +176,29 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.carousel-wrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    animation: scrollCarousel 25s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused; /* Pausa o carrossel ao passar o mouse */
+}
+
+@keyframes scrollCarousel {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}

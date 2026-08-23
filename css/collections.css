@@ -28,10 +28,11 @@
   margin: 0;
   max-height: 70vh;
   overflow-y: auto;
+  position: relative;
 }
 
 .collection-item {
-  padding: 6px 0;
+  padding: 4px 0;
   color: #000000;
   font-family: Arial, sans-serif;
   font-size: 12px;
@@ -48,6 +49,45 @@
 .collection-item.active {
   color: #000080;
   font-weight: bold;
+}
+
+/* Item "All Collections" fixado no topo do scroll */
+.collection-item.all-item {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 10;
+  color: #0000ff;
+  font-weight: bold;
+  padding: 6px 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+.collection-item.all-item:hover {
+  color: #000080;
+}
+
+.collection-item.all-item .count-badge {
+  color: #0000ff;
+}
+
+/* Item Fixado com Borda Amarela */
+.collection-item.pinned-item {
+  border: 1px solid #ffcc00;
+  padding: 3px 4px;
+  margin-bottom: 2px;
+}
+
+.pin-btn {
+  font-family: monospace;
+  font-size: 11px;
+  color: #666666;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pin-btn:hover {
+  color: #000080;
 }
 
 .count-badge {

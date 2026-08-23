@@ -1,6 +1,7 @@
 let currentPage = 1;
 const ITEMS_PER_PAGE = 30;
 let currentDataset = [];
+let coinsCarouselIndex = 0;
 
 function getFavorites() {
   const favorites = localStorage.getItem("favoriteCards");
@@ -28,6 +29,8 @@ function toggleFavorite(serialNumber, event) {
   } else if (typeof pokemons !== "undefined") {
     renderTable(pokemons);
   }
+
+  renderCoinsCarousel();
 }
 
 function createCardElement(pokemon) {
@@ -68,6 +71,41 @@ function createCardElement(pokemon) {
   });
 
   return card;
+}
+
+function renderCoinsCarousel() {
+  const track = document.getElementById("coinsCarouselTrack");
+  if (!track || typeof pokemons === "undefined") return;
+
+  track.innerHTML = "";
+  const coins = pokemons.filter((p) => p.Category === "Coin");
+
+  coins.forEach((coin) => {
+    const card = createCardElement(coin);
+    card.classList.add("carousel-card");
+    track.appendChild(card);
+  });
+}
+
+function moveCoinsCarousel(direction) {
+  const track = document.getElementById("coinsCarouselTrack");
+  if (!track) return;
+
+  const cards = track.querySelectorAll(".card-item");
+  if (cards.length === 0) return;
+
+  const cardWidth = cards[0].offsetWidth + 16;
+  const maxIndex = cards.length - Math.floor(track.parentElement.offsetWidth / cardWidth);
+
+  coinsCarouselIndex += direction;
+
+  if (coinsCarouselIndex < 0) {
+    coinsCarouselIndex = 0;
+  } else if (coinsCarouselIndex > maxIndex) {
+    coinsCarouselIndex = Math.max(0, maxIndex);
+  }
+
+  track.style.transform = `translateX(-${coinsCarouselIndex * cardWidth}px)`;
 }
 
 function renderTable(data) {
@@ -146,34 +184,44 @@ function openModal(pokemon) {
     modalImg.style.transformOrigin = "center center";
   }
 
-  document.getElementById("modalImg").src = pokemon.Image;
-  document.getElementById("modalName").innerText = pokemon.Name;
+  if (modalImg) modalImg.src = pokemon.Image;
+  
+  const modalNameEl = document.getElementById("modalName");
+  if (modalNameEl) modalNameEl.innerText = pokemon.Name;
 
   const modalSetEl = document.getElementById("modalSet");
   if (modalSetEl) {
     modalSetEl.innerText = pokemon.Set || "-";
   }
 
-  document.getElementById("modalSeries").innerText = pokemon.SerialNumber;
-  document.getElementById("modalTextured").innerText =
-    pokemon.Textured === "Yes" ? "Yes" : "No";
+  const modalSeriesEl = document.getElementById("modalSeries");
+  if (modalSeriesEl) modalSeriesEl.innerText = pokemon.SerialNumber;
+
+  const modalTexturedEl = document.getElementById("modalTextured");
+  if (modalTexturedEl) {
+    modalTexturedEl.innerText = pokemon.Textured === "Yes" ? "Yes" : "No";
+  }
 
   updateModalPrices(pokemon);
 
-  document.getElementById("cardModal").style.display = "flex";
+  const cardModal = document.getElementById("cardModal");
+  if (cardModal) cardModal.style.display = "flex";
 }
 
 function closeModal() {
   currentModalPokemon = null;
-  document.getElementById("cardModal").style.display = "none";
+  const cardModal = document.getElementById("cardModal");
+  if (cardModal) cardModal.style.display = "none";
 }
 
 function openCredits() {
-  document.getElementById("creditsModal").style.display = "flex";
+  const creditsModal = document.getElementById("creditsModal");
+  if (creditsModal) creditsModal.style.display = "flex";
 }
 
 function closeCredits() {
-  document.getElementById("creditsModal").style.display = "none";
+  const creditsModal = document.getElementById("creditsModal");
+  if (creditsModal) creditsModal.style.display = "none";
 }
 
 function initZoomFeature() {
@@ -214,4 +262,5 @@ window.onclick = function (event) {
 
 document.addEventListener("DOMContentLoaded", () => {
   initZoomFeature();
+  renderCoinsCarousel();
 });

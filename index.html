@@ -30,8 +30,6 @@
             </div>
 
             <div class="header-actions">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
-
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>
                 </button>
@@ -40,9 +38,19 @@
             </div>
         </header>
 
-        <div class="carousel-wrapper">
-            <div id="cardGrid" class="carousel-track"></div>
+        <div class="carousel-section">
+            <h2> Cards and Coins </h2>
+            <div class="carousel-wrapper">
+                <div id="cardGrid" class="carousel-track"></div>
+            </div>
         </div>
+
+        <div class="carousel-section" style="margin-top: 30px;">
+            <div class="carousel-wrapper" style="position: relative; overflow: hidden;">
+                <div id="coinsCarouselTrack" class="carousel-track"></div>
+            </div>
+        </div>
+
         <div id="noResults" class="no-results">
             No Pokémon found.
         </div>
@@ -164,20 +172,28 @@
         window.addEventListener("load", () => {
             if (typeof pokemons !== "undefined") {
                 const onlyCards = pokemons.filter(p => p.Category !== "Coin");
+                const shuffledCards = [...onlyCards].sort(() => 0.5 - Math.random());
+                const random12Cards = shuffledCards.slice(0, 12);
                 
-                const shuffled = [...onlyCards].sort(() => 0.5 - Math.random());
-                const random12 = shuffled.slice(0, 12);
-                
-                window.homeRandomSelection = random12;
-                
-                const container = document.getElementById("cardGrid");
-                if (container && typeof createCardElement === "function") {
-                    container.innerHTML = "";
-
-                    const doubleCards = [...random12, ...random12];
-                    
+                const cardContainer = document.getElementById("cardGrid");
+                if (cardContainer && typeof createCardElement === "function") {
+                    cardContainer.innerHTML = "";
+                    const doubleCards = [...random12Cards, ...random12Cards];
                     doubleCards.forEach(pokemon => {
-                        container.appendChild(createCardElement(pokemon));
+                        cardContainer.appendChild(createCardElement(pokemon));
+                    });
+                }
+
+                const onlyCoins = pokemons.filter(p => p.Category === "Coin");
+                const coinContainer = document.getElementById("coinsCarouselTrack");
+                if (coinContainer && typeof createCardElement === "function") {
+                    coinContainer.innerHTML = "";
+                    
+                    const doubleCoins = onlyCoins.length > 0 ? [...onlyCoins, ...onlyCoins] : [];
+                    
+                    doubleCoins.forEach(coin => {
+                        const coinCard = createCardElement(coin);
+                        coinContainer.appendChild(coinCard);
                     });
                 }
 

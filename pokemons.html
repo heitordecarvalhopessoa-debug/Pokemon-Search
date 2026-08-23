@@ -30,7 +30,10 @@
             </div>
 
             <div class="header-actions">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
+                <div class="search-wrapper" style="position: relative;">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Pesquisar..." autocomplete="off">
+                    <div id="searchDropdown" class="search-dropdown"></div>
+                </div>
 
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>

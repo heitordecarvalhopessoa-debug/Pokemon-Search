@@ -24,14 +24,19 @@
                     <h4>Explore cards by <b>Sets & Expansion Collections</b></h4>
                     <nav class="nav-links" style="margin-top: 8px;">
                         <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
-                        <a href="pokemons.html" style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
+                        <a href="pokemons.html"
+                            style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
                         <a href="collections.html" style="font-weight: bold; color: #ffcb05;">Collections</a>
                     </nav>
                 </div>
             </div>
 
             <div class="header-actions">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search name, series...">
+                <div class="search-wrapper" style="position: relative;">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Pesquisar..."
+                        autocomplete="off">
+                    <div id="searchDropdown" class="search-dropdown"></div>
+                </div>
 
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>
@@ -189,6 +194,25 @@
     <script>
         let selectedCollection = "ALL";
 
+        function getPinnedCollections() {
+            const pinned = localStorage.getItem("pinnedCollections");
+            return pinned ? JSON.parse(pinned) : [];
+        }
+
+        function togglePinCollection(setName, event) {
+            event.stopPropagation();
+
+            let pinned = getPinnedCollections();
+            if (pinned.includes(setName)) {
+                pinned = pinned.filter(s => s !== setName);
+            } else {
+                pinned.push(setName);
+            }
+
+            localStorage.setItem("pinnedCollections", JSON.stringify(pinned));
+            renderCollectionSidebar();
+        }
+
         function renderCollectionSidebar() {
             if (typeof pokemons === "undefined") return;
 
@@ -201,28 +225,44 @@
                 collectionCounts[setName] = (collectionCounts[setName] || 0) + 1;
             });
 
-            const sortedSets = Object.keys(collectionCounts).sort((a, b) => a.localeCompare(b));
+            const pinnedSets = getPinnedCollections();
+
+            const sortedSets = Object.keys(collectionCounts).sort((a, b) => {
+                const aPinned = pinnedSets.includes(a);
+                const bPinned = pinnedSets.includes(b);
+
+                if (aPinned && !bPinned) return -1;
+                if (!aPinned && bPinned) return 1;
+                return a.localeCompare(b);
+            });
 
             listContainer.innerHTML = "";
 
             const allLi = document.createElement("li");
-            allLi.className = `collection-item ${selectedCollection === "ALL" ? "active" : ""}`;
+            allLi.className = `collection-item all-item ${selectedCollection === "ALL" ? "active" : ""}`;
             allLi.dataset.set = "ALL";
             allLi.innerHTML = `
-                <span>All Collections</span>
-                <span class="count-badge">${pokemons.length}</span>
-            `;
+            <span>All Collections</span>
+            <span class="count-badge">(${pokemons.length})</span>
+        `;
             allLi.onclick = () => selectCollection("ALL", "All Collections");
             listContainer.appendChild(allLi);
 
             sortedSets.forEach(setName => {
+                const isPinned = pinnedSets.includes(setName);
                 const li = document.createElement("li");
-                li.className = `collection-item ${selectedCollection === setName ? "active" : ""}`;
+                li.className = `collection-item ${selectedCollection === setName ? "active" : ""} ${isPinned ? "pinned-item" : ""}`;
                 li.dataset.set = setName;
+
                 li.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <span class="pin-btn" onclick="togglePinCollection('${setName.replace(/'/g, "\\'")}', event)" title="Fixar">
+                        ${isPinned ? "[x]" : "[-]"}
+                    </span>
                     <span>${setName}</span>
-                    <span class="count-badge">${collectionCounts[setName]}</span>
-                `;
+                </div>
+                <span class="count-badge">(${collectionCounts[setName]})</span>
+            `;
                 li.onclick = () => selectCollection(setName, setName);
                 listContainer.appendChild(li);
             });

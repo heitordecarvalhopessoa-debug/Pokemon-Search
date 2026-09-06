@@ -1,3 +1,21 @@
+let selectedColor = "ALL";
+
+function selectColorFilter(color) {
+  selectedColor = color;
+
+  const buttons = document.querySelectorAll(".color-btn");
+  buttons.forEach(btn => {
+    if (btn.dataset.color === color) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+
+  if (typeof currentPage !== "undefined") currentPage = 1;
+  filterTable();
+}
+
 function parsePrice(priceStr) {
   if (!priceStr || priceStr === "-") return 0;
   
@@ -34,16 +52,20 @@ function resetFilters() {
   const textureFilter = document.getElementById("textureFilter");
   const favFilter = document.getElementById("favFilter");
   const sortOrder = document.getElementById("sortOrder");
+  const minPriceInput = document.getElementById("minPriceInput");
+  const maxPriceInput = document.getElementById("maxPriceInput");
 
   if (categoryFilter) categoryFilter.value = "ALL";
   if (textureFilter) textureFilter.value = "ALL";
   if (favFilter) favFilter.value = "ALL";
   if (sortOrder) sortOrder.value = "default";
+  if (minPriceInput) minPriceInput.value = "";
+  if (maxPriceInput) maxPriceInput.value = "";
 
-  filterTable();
+  selectColorFilter("ALL");
 }
 
-function updateActiveFilterBadge(category, texture, fav, sort) {
+function updateActiveFilterBadge(category, texture, fav, sort, minPrice, maxPrice, color) {
   const badge = document.getElementById("activeFilterBadge");
   if (!badge) return;
 
@@ -52,6 +74,9 @@ function updateActiveFilterBadge(category, texture, fav, sort) {
   if (texture !== "ALL") activeCount++;
   if (fav !== "ALL") activeCount++;
   if (sort !== "default") activeCount++;
+  if (minPrice !== "" && !isNaN(minPrice)) activeCount++;
+  if (maxPrice !== "" && !isNaN(maxPrice)) activeCount++;
+  if (color && color !== "ALL") activeCount++;
 
   if (activeCount > 0) {
     badge.innerText = activeCount;
@@ -160,6 +185,8 @@ function filterTable() {
   const textureFilter = document.getElementById("textureFilter");
   const favFilter = document.getElementById("favFilter");
   const sortOrder = document.getElementById("sortOrder");
+  const minPriceInput = document.getElementById("minPriceInput");
+  const maxPriceInput = document.getElementById("maxPriceInput");
 
   const baseData = getPageDataset();
   if (!baseData) return;
@@ -170,11 +197,20 @@ function filterTable() {
   const selectedFav = favFilter ? favFilter.value : "ALL";
   const selectedSort = sortOrder ? sortOrder.value : "default";
 
+  const minPriceVal = minPriceInput ? minPriceInput.value.trim() : "";
+  const maxPriceVal = maxPriceInput ? maxPriceInput.value.trim() : "";
+
+  const minPrice = minPriceVal !== "" ? parseFloat(minPriceVal) : null;
+  const maxPrice = maxPriceVal !== "" ? parseFloat(maxPriceVal) : null;
+
   updateActiveFilterBadge(
     selectedCategory,
     selectedTexture,
     selectedFav,
-    selectedSort
+    selectedSort,
+    minPriceVal,
+    maxPriceVal,
+    selectedColor
   );
 
   const favorites = typeof getFavorites === "function" ? getFavorites() : [];
@@ -182,7 +218,7 @@ function filterTable() {
   let filtered = baseData.filter((p) => {
     const matchesSearch =
       p.Name.toLowerCase().includes(term) ||
-      p.SerialNumber.toLowerCase().includes(term);
+      (p.SerialNumber && p.SerialNumber.toLowerCase().includes(term));
 
     const matchesCategory =
       selectedCategory === "ALL" || p.Category === selectedCategory;
@@ -193,7 +229,31 @@ function filterTable() {
     const matchesFav =
       selectedFav === "ALL" || favorites.includes(p.SerialNumber);
 
-    return matchesSearch && matchesCategory && matchesTexture && matchesFav;
+    const cardColor = p.Color || p.ColorName || "";
+    const matchesColor =
+      selectedColor === "ALL" || cardColor.toLowerCase() === selectedColor.toLowerCase();
+
+    const itemPrice = parsePrice(p.Price1);
+    let matchesMinPrice = true;
+    let matchesMaxPrice = true;
+
+    if (minPrice !== null && !isNaN(minPrice)) {
+      matchesMinPrice = itemPrice >= minPrice;
+    }
+
+    if (maxPrice !== null && !isNaN(maxPrice)) {
+      matchesMaxPrice = itemPrice <= maxPrice;
+    }
+
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesTexture &&
+      matchesFav &&
+      matchesColor &&
+      matchesMinPrice &&
+      matchesMaxPrice
+    );
   });
 
   if (sortOrder) {
@@ -225,11 +285,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const textureFilter = document.getElementById("textureFilter");
   const favFilter = document.getElementById("favFilter");
   const sortOrder = document.getElementById("sortOrder");
+  const minPriceInput = document.getElementById("minPriceInput");
+  const maxPriceInput = document.getElementById("maxPriceInput");
 
   if (categoryFilter) categoryFilter.addEventListener("change", filterTable);
   if (textureFilter) textureFilter.addEventListener("change", filterTable);
   if (favFilter) favFilter.addEventListener("change", filterTable);
   if (sortOrder) sortOrder.addEventListener("change", filterTable);
+  if (minPriceInput) minPriceInput.addEventListener("input", filterTable);
+  if (maxPriceInput) maxPriceInput.addEventListener("input", filterTable);
 
   const currentUrl = window.location.href.toLowerCase();
   const isHome = !currentUrl.includes("pokemons");
@@ -241,3 +305,4 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAutocomplete();
   filterTable();
 });
+

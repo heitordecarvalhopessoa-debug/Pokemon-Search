@@ -4,12 +4,17 @@ let currentModalPokemon = null;
 let exchangeRates = {
   BRL: 1.0,
   USD: 0.18,
-  EUR: 0.16
+  EUR: 0.16,
+  JPY: 24.0,
+  UK: 0.14,
+  AUS: 0.25,
+  CHF: 0.17,
 };
 
 async function fetchExchangeRates() {
   try {
-    const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL");
+    const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,JPY-BRL,GBP-BRL,AUD-BRL,CHF-BRL");
+
     if (!response.ok) throw new Error("Erro ao carregar taxas de câmbio");
     
     const data = await response.json();
@@ -47,6 +52,14 @@ function convertPrice(priceStr, targetCurrency = currentCurrency) {
       return `$ ${convertedValue.toFixed(2)}`;
     case "EUR":
       return `€ ${convertedValue.toFixed(2)}`;
+    case "JPY":
+      return `¥ ${convertedValue.toFixed(2)}`;
+    case "UK":
+      return `£ ${convertedValue.toFixed(2)}`;
+    case "AUS":
+      return `$ ${convertedValue.toFixed(2)}`;
+    case "CHF":
+      return `CHF ${convertedValue.toFixed(2)}`;
     case "BRL":
     default:
       return `R$ ${convertedValue.toFixed(2).replace(".", ",")}`;
@@ -79,7 +92,7 @@ function selectCurrency(currencyCode) {
     }
   });
 
-  const labels = { BRL: "BRL (R$)", USD: "USD ($)", EUR: "EUR (€)" };
+  const labels = { BRL: "BRL (R$)", USD: "USD ($)", EUR: "EUR (€)", JPY: "JPY (¥)", UK: "UK (£)", AUS: "AUS ($)", CHF: "CHF (CHF)" };
   const labelEl = document.getElementById("currentCurrencyLabel");
   if (labelEl) labelEl.innerText = labels[currencyCode] || currencyCode;
 

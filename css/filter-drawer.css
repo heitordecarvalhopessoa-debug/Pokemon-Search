@@ -191,7 +191,7 @@
 }
 
 .carousel-track:hover {
-    animation-play-state: paused; /* Pausa o carrossel ao passar o mouse */
+    animation-play-state: paused;
 }
 
 @keyframes scrollCarousel {

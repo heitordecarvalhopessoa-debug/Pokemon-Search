@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/filter-drawer.css">
     <link rel="stylesheet" href="css/modals.css">
     <link rel="stylesheet" href="css/collections.css">
+    <link rel="stylesheet" href="css/holographic.css">
+    <link rel="stylesheet" href="css/loading-styles.css">
 </head>
 
 <body>
@@ -24,9 +26,9 @@
                     <h4>Explore cards by <b>Sets & Expansion Collections</b></h4>
                     <nav class="nav-links" style="margin-top: 8px;">
                         <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
-                        <a href="pokemons.html"
-                            style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
-                        <a href="collections.html" style="font-weight: bold; color: #ffcb05;">Collections</a>
+                        <a href="pokemons.html" style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
+                        <a href="collections.html" style="margin-right: 15px; font-weight: bold; color: #ffcb05;">Collections</a>
+                        <a href="compare.html" style="font-weight: bold; color: #05ff1a;">Compare</a>
                     </nav>
                 </div>
             </div>
@@ -67,7 +69,13 @@
                     <div id="resultsCount" class="results-count">Showing 0 items</div>
                 </div>
 
-                <div id="cardGrid" class="card-grid"></div>
+                <div id="cardGrid" class="card-grid">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+
                 <div id="noResults" class="no-results">
                     No Pokémon found for this collection.
                 </div>
@@ -127,6 +135,15 @@
                     <option value="name-asc">Name (A-Z)</option>
                 </select>
             </div>
+
+            <div class="filter-group">
+                <label>Price Range</label>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <input type="number" id="minPriceInput" class="filter-select" placeholder="Min" min="0" step="0.01">
+                    <span>-</span>
+                    <input type="number" id="maxPriceInput" class="filter-select" placeholder="Max" min="0" step="0.01">
+                </div>
+            </div>
         </div>
 
         <div class="drawer-footer">
@@ -140,7 +157,8 @@
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <img id="modalImg" src="" alt="Pokémon Item">
+                    <div class="spinner" id="modalSpinner"></div>
+                    <img id="modalImg" class="card-img-smooth" src="" alt="Pokémon Item" onload="this.classList.add('loaded'); document.getElementById('modalSpinner').style.display='none';">
                 </div>
                 <div class="modal-info">
                     <h2 id="modalName"></h2>
@@ -177,6 +195,18 @@
                     <button class="currency-option-btn" data-currency="EUR" onclick="selectCurrency('EUR')">
                         <span class="flag">🇪🇺</span> Euro (€)
                     </button>
+                    <button class="currency-option-btn" data-currency="JPY" onclick="selectCurrency('JPY')">
+                        <span class="flag">🇯🇵</span> Japanese Yen (¥)
+                    </button>
+                    <button class="currency-option-btn" data-currency="UK" onclick="selectCurrency('UK')">
+                        <span class="flag">🇬🇧</span> British Pound (£)
+                    </button>
+                    <button class="currency-option-btn" data-currency="AUS" onclick="selectCurrency('AUS')">
+                        <span class="flag">🇦🇺</span> Australian Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="CHF" onclick="selectCurrency('CHF')">
+                        <span class="flag">🇨🇭</span> Swiss Franc (CHF)
+                    </button>
                 </div>
             </div>
         </div>
@@ -190,6 +220,7 @@
     <script src="js/search.js" defer></script>
     <script src="js/counter.js" defer></script>
     <script src="js/credits.js" defer></script>
+    <script src="js/holographic.js" defer></script>
 
     <script>
         let selectedCollection = "ALL";

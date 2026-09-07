@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Search - Compare</title>
+    <link rel="icon" type="image/png" href="Assets/ico/Logo.png">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/filter-drawer.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/holographic.css">
+    <link rel="stylesheet" href="css/loading-styles.css">
+    <link rel="stylesheet" href="css/compare.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header-bar">
+            <div class="header-titles">
+                <img src="Assets/ico/Logo.png" alt="Pokemon Search Logo" class="site-logo">
+                <div class="text-group">
+                    <h1>Pokemon Search</h1>
+                    <h4>Compare <b>pokemon cards</b> prices</h4>
+                    <nav class="nav-links" style="margin-top: 8px;">
+                        <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
+                        <a href="pokemons.html" style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
+                        <a href="collections.html" style="margin-right: 15px; font-weight: bold; color: #ffcb05;">Collections</a>
+                        <a href="compare.html" style="font-weight: bold; color: #05ff1a;">Compare</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
+                    <span id="currentCurrencyLabel">BRL (R$)</span>
+                </button>
+
+                <button id="creditsBtn" class="credits-btn" onclick="openCredits()">Credits</button>
+            </div>
+        </header>
+
+        <section class="compare-section">
+            <h2>Price Comparator</h2>
+
+            <div class="compare-inputs-container">
+                <div class="compare-card-selector">
+                    <div class="search-container">
+                        <label for="cardSearchInput1">Search Card 1:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="cardSearchInput1" placeholder="Type a Pokémon name..." autocomplete="off">
+                        </div>
+                        <ul id="suggestionsList1" class="suggestions-list"></ul>
+                    </div>
+
+                    <div class="compare-select-group">
+                        <label for="cardSelect1">Choose Card 1:</label>
+                        <select id="cardSelect1" class="filter-select"></select>
+                    </div>
+                </div>
+
+                <div class="compare-card-selector">
+                    <div class="search-container">
+                        <label for="cardSearchInput2">Search Card 2:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="cardSearchInput2" placeholder="Type a Pokémon name..." autocomplete="off">
+                        </div>
+                        <ul id="suggestionsList2" class="suggestions-list"></ul>
+                    </div>
+
+                    <div class="compare-select-group">
+                        <label for="cardSelect2">Choose Card 2:</label>
+                        <select id="cardSelect2" class="filter-select"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compare-grid">
+                <div class="card-slot">
+                    <img id="compareImg1" src="Assets/ico/Logo.png" alt="Card 1">
+                    <h3 id="compareName1">Select a card</h3>
+                    <p><strong>Set:</strong> <span id="compareSet1">-</span></p>
+                    <p><strong>Serial:</strong> <span id="compareSerial1">-</span></p>
+                    <hr>
+                    <p>Price 1: <strong id="price1Slot1">-</strong></p>
+                    <p>Price 2: <strong id="price2Slot1">-</strong></p>
+                    <p>Price 3: <strong id="price3Slot1">-</strong></p>
+                    <p class="lowest-price-row">Lowest Price: <strong id="minPriceSlot1">-</strong></p>
+                </div>
+
+                <div class="card-slot">
+                    <img id="compareImg2" src="Assets/ico/Logo.png" alt="Card 2">
+                    <h3 id="compareName2">Select a card</h3>
+                    <p><strong>Set:</strong> <span id="compareSet2">-</span></p>
+                    <p><strong>Serial:</strong> <span id="compareSerial2">-</span></p>
+                    <hr>
+                    <p>Price 1: <strong id="price1Slot2">-</strong></p>
+                    <p>Price 2: <strong id="price2Slot2">-</strong></p>
+                    <p>Price 3: <strong id="price3Slot2">-</strong></p>
+                    <p class="lowest-price-row">Lowest Price: <strong id="minPriceSlot2">-</strong></p>
+                </div>
+            </div>
+
+            <div id="compareDifference">
+                <p>Select two cards to view a detailed price comparison.</p>
+            </div>
+        </section>
+    </div>
+
+    <div id="currencyModal" class="modal">
+        <div class="modal-content currency-content">
+            <span class="close-btn" onclick="closeCurrencyModal()">&times;</span>
+            <div class="currency-header">
+                <h2>Select Currency</h2>
+            </div>
+            <div class="currency-body">
+                <p class="modal-subtitle">Choose your preferred currency for display:</p>
+                <div class="currency-options">
+                    <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
+                        <span class="flag">🇧🇷</span> Brazilian Real (R$)
+                    </button>
+                    <button class="currency-option-btn" data-currency="USD" onclick="selectCurrency('USD')">
+                        <span class="flag">🇺🇸</span> US Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="EUR" onclick="selectCurrency('EUR')">
+                        <span class="flag">🇪🇺</span> Euro (€)
+                    </button>
+                    <button class="currency-option-btn" data-currency="JPY" onclick="selectCurrency('JPY')">
+                        <span class="flag">🇯🇵</span> Japanese Yen (¥)
+                    </button>
+                    <button class="currency-option-btn" data-currency="UK" onclick="selectCurrency('UK')">
+                        <span class="flag">🇬🇧</span> British Pound (£)
+                    </button>
+                    <button class="currency-option-btn" data-currency="AUS" onclick="selectCurrency('AUS')">
+                        <span class="flag">🇦🇺</span> Australian Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="CHF" onclick="selectCurrency('CHF')">
+                        <span class="flag">🇨🇭</span> Swiss Franc (CHF)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="creditsModal" class="modal"></div>
+
+    <script src="js/converter.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/credits.js" defer></script>
+    <script src="js/compare.js" defer></script>
+
+</body>
+</html>

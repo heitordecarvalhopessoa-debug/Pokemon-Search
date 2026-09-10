@@ -155,23 +155,39 @@
     <div id="cardModal" class="modal">
         <div class="modal-content modal-right">
             <span class="close-btn" onclick="closeModal()">&times;</span>
+
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <div class="spinner" id="modalSpinner"></div>
-                    <img id="modalImg" class="card-img-smooth" src="" alt="Pokémon Item" onload="this.classList.add('loaded'); document.getElementById('modalSpinner').style.display='none';">
+                    <img id="modalImg" src="" alt="Card Image">
+                    <span id="zoomIndicator">100%</span>
                 </div>
+
                 <div class="modal-info">
-                    <h2 id="modalName"></h2>
-                    <p><strong>Set/Collection:</strong> <span id="modalSet"></span></p>
-                    <p><strong>Serial No.:</strong> <span id="modalSeries"></span></p>
-                    <p><strong>Textured:</strong> <span id="modalTextured"></span></p>
-                    <hr>
-                    <h3>Prices Found:</h3>
-                    <ul class="price-list">
-                        <li>Price 1: <strong id="modalPrice1"></strong></li>
-                        <li>Price 2: <strong id="modalPrice2"></strong></li>
-                        <li>Price 3: <strong id="modalPrice3"></strong></li>
-                    </ul>
+                    <h2 id="modalName">Card Name</h2>
+
+                    <div class="card-details-grid">
+                        <div class="detail-item">
+                            <span class="label">Series / No.</span>
+                            <span class="val" id="modalSeries">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Set</span>
+                            <span class="val" id="modalSet">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Textured</span>
+                            <span class="val" id="modalTextured">-</span>
+                        </div>
+                    </div>
+
+                    <div class="price-section">
+                        <span class="price-title">Market Prices</span>
+                        <ul class="price-list">
+                            <li><strong id="modalPrice1">-</strong></li>
+                            <li><strong id="modalPrice2">-</strong></li>
+                            <li><strong id="modalPrice3">-</strong></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,6 +237,7 @@
     <script src="js/counter.js" defer></script>
     <script src="js/credits.js" defer></script>
     <script src="js/holographic.js" defer></script>
+    <script src="collection.js"></script>
 
     <script>
         let selectedCollection = "ALL";

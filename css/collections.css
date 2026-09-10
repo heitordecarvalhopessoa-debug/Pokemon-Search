@@ -157,3 +157,38 @@
     border-color: #000;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    color: #333;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-action:hover {
+    background-color: #e2e6ea;
+}
+
+.btn-have.active {
+    background-color: #28a745;
+    color: #ffffff;
+    border-color: #28a745;
+}
+
+.btn-want.active {
+    background-color: #ffc107;
+    color: #212529;
+    border-color: #ffc107;
+}

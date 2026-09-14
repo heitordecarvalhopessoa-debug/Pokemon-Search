@@ -23,22 +23,20 @@
                 <div class="text-group">
                     <h1>Pokemon Collection</h1>
                     <h4>All <b>Cards & Coins</b> Pokémon</h4>
-                    <nav class="nav-links" style="margin-top: 8px;">
-                        <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
-                        <a href="pokemons.html" style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
-                        <a href="collections.html" style="margin-right: 15px; font-weight: bold; color: #ffcb05;">Collections</a>
-                        <a href="compare.html" style="font-weight: bold; color: #05ff1a;">Compare</a>
+                    <nav class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="pokemons.html">Pokémons</a>
+                        <a href="collections.html">Collections</a>
+                        <a href="compare.html">Compare</a>
                     </nav>
                 </div>
             </div>
 
             <div class="header-actions">
-                <div class="search-wrapper" style="position: relative;">
-                    <input type="text" id="searchInput" class="search-box" placeholder="Pesquisar..."
-                        autocomplete="off">
-                    <div id="searchDropdown" class="search-dropdown"></div>
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" class="search-box-improved" placeholder="Search for Pokémons, cards or series...">
                 </div>
-
+                
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
                     <span id="currentCurrencyLabel">BRL (R$)</span>
                 </button>
@@ -148,52 +146,36 @@
     <div id="cardModal" class="modal">
         <div class="modal-content modal-right">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <img id="modalImg" src="" alt="Card Image">
-                    <span id="zoomIndicator">100%</span>
+                    <div class="spinner" id="modalSpinner"></div>
+                    <img id="modalImg" class="card-img-smooth" src="" alt="Pokémon Item" onload="this.classList.add('loaded'); document.getElementById('modalSpinner').style.display='none';">
                 </div>
-
                 <div class="modal-info">
-                    <h2 id="modalName">Card Name</h2>
-
-                    <div class="card-details-grid">
-                        <div class="detail-item">
-                            <span class="label">Series / No.</span>
-                            <span class="val" id="modalSeries">-</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Set</span>
-                            <span class="val" id="modalSet">-</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Textured</span>
-                            <span class="val" id="modalTextured">-</span>
-                        </div>
-                    </div>
-
-                    <div class="price-section">
-                        <span class="price-title">Market Prices</span>
-                        <ul class="price-list">
-                            <li><strong id="modalPrice1">-</strong></li>
-                            <li><strong id="modalPrice2">-</strong></li>
-                            <li><strong id="modalPrice3">-</strong></li>
-                        </ul>
-                    </div>
+                    <h2 id="modalName"></h2>
+                    <p><strong>Set/Collection:</strong> <span id="modalSet"></span></p>
+                    <p><strong>Serial No.:</strong> <span id="modalSeries"></span></p>
+                    <p><strong>Textured:</strong> <span id="modalTextured"></span></p>
+                    <hr>
+                    <h3>Prices Found:</h3>
+                    <ul class="price-list">
+                        <li>Price 1: <strong id="modalPrice1"></strong></li>
+                        <li>Price 2: <strong id="modalPrice2"></strong></li>
+                        <li>Price 3: <strong id="modalPrice3"></strong></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="currencyModal" class="modal">
-        <div class="modal-content currency-content">
+        <div class="credits-content modal-content">
             <span class="close-btn" onclick="closeCurrencyModal()">&times;</span>
-            <div class="currency-header">
+            <div class="credits-header">
                 <h2>Select Currency</h2>
             </div>
-            <div class="currency-body">
-                <p class="modal-subtitle">Choose your preferred currency for display:</p>
+            <div class="credits-body">
+                <p class="modal-subtitle">Choose your preferred display currency:</p>
                 <div class="currency-options">
                     <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
                         <span class="flag">🇧🇷</span> Brazilian Real (R$)
@@ -240,5 +222,4 @@
         });
     </script>
 </body>
-
 </html>

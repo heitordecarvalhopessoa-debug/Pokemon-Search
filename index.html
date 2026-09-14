@@ -23,13 +23,11 @@
                 <div class="text-group">
                     <h1>Pokemon Search</h1>
                     <h4>Only <b>FULLART / EX / GX / V / VMAX / VSTAR / BREAK / VUNION / COINS</b> Pokemon</h4>
-                    <nav class="nav-links" style="margin-top: 8px;">
-                        <a href="index.html" style="margin-right: 15px; font-weight: bold; color: #0509ff">Home</a>
-                        <a href="pokemons.html"
-                            style="margin-right: 15px; font-weight: bold; color: #ff0505">Pokémons</a>
-                        <a href="collections.html"
-                            style="margin-right: 15px; font-weight: bold; color: #ffcb05;">Collections</a>
-                        <a href="compare.html" style="font-weight: bold; color: #05ff1a;">Compare</a>
+                    <nav class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="pokemons.html">Pokémons</a>
+                        <a href="collections.html">Collections</a>
+                        <a href="compare.html">Compare</a>
                     </nav>
                 </div>
             </div>
@@ -43,8 +41,17 @@
             </div>
         </header>
 
+        <br>
+        <h1 style="text-align: center;">Welcome to Pokemon Search Lib</h1>
+        <br>
+        <h5 style="text-align: center;">Your <b>ultimate destination</b> for finding the rarest, most beautiful, and most valuable Pokémon cards!</h5>
+        <h5 style="text-align: center;"><b>EX, GX, V, VMAX, VSTAR, and BREAK cards</b>, among others, are shown here.</h5>
+        <h5 style="text-align: center;">In addition to cards, here you can find <b>coins</b> featuring detailed Pokémon faces.</h5>
+     
+        <hr>
+
         <div class="carousel-section">
-            <h2> Cards and Coins </h2>
+            <h2>Featured Random Cards</h2>
             <div class="carousel-wrapper">
                 <div id="cardGrid" class="carousel-track">
                     <div class="skeleton-card"></div>
@@ -56,6 +63,29 @@
         </div>
 
         <div class="carousel-section" style="margin-top: 30px;">
+            <h2>Recommended Cards</h2>
+            <div class="carousel-wrapper">
+                <div id="expensiveCarouselTrack" class="carousel-track">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-section" style="margin-top: 30px;">
+            <h2>Beautiful Cards</h2>
+            <div class="carousel-wrapper">
+                <div id="beautifulCarouselTrack" class="carousel-track">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-section" style="margin-top: 30px;">
+            <h2>Coins</h2>
             <div class="carousel-wrapper" style="position: relative; overflow: hidden;">
                 <div id="coinsCarouselTrack" class="carousel-track">
                     <div class="skeleton-card"></div>
@@ -138,52 +168,36 @@
     <div id="cardModal" class="modal">
         <div class="modal-content modal-right">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-
             <div class="modal-body">
                 <div class="zoom-container" id="zoomContainer">
-                    <img id="modalImg" src="" alt="Card Image">
-                    <span id="zoomIndicator">100%</span>
+                    <div class="spinner" id="modalSpinner"></div>
+                    <img id="modalImg" class="card-img-smooth" src="" alt="Pokémon Card" onload="this.classList.add('loaded'); document.getElementById('modalSpinner').style.display='none';">
                 </div>
-
                 <div class="modal-info">
-                    <h2 id="modalName">Card Name</h2>
-
-                    <div class="card-details-grid">
-                        <div class="detail-item">
-                            <span class="label">Series / No.</span>
-                            <span class="val" id="modalSeries">-</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Set</span>
-                            <span class="val" id="modalSet">-</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Textured</span>
-                            <span class="val" id="modalTextured">-</span>
-                        </div>
-                    </div>
-
-                    <div class="price-section">
-                        <span class="price-title">Market Prices</span>
-                        <ul class="price-list">
-                            <li><strong id="modalPrice1">-</strong></li>
-                            <li><strong id="modalPrice2">-</strong></li>
-                            <li><strong id="modalPrice3">-</strong></li>
-                        </ul>
-                    </div>
+                    <h2 id="modalName"></h2>
+                    <p><strong>Set/Collection:</strong> <span id="modalSet"></span></p>
+                    <p><strong>Serial No.:</strong> <span id="modalSeries"></span></p>
+                    <p><strong>Textured:</strong> <span id="modalTextured"></span></p>
+                    <hr>
+                    <h3>Prices Found:</h3>
+                    <ul class="price-list">
+                        <li>Price 1: <strong id="modalPrice1"></strong></li>
+                        <li>Price 2: <strong id="modalPrice2"></strong></li>
+                        <li>Price 3: <strong id="modalPrice3"></strong></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="currencyModal" class="modal">
-        <div class="modal-content currency-content">
+        <div class="credits-content modal-content">
             <span class="close-btn" onclick="closeCurrencyModal()">&times;</span>
-            <div class="currency-header">
+            <div class="credits-header">
                 <h2>Select Currency</h2>
             </div>
-            <div class="currency-body">
-                <p class="modal-subtitle">Choose your preferred currency for display:</p>
+            <div class="credits-body">
+                <p class="modal-subtitle">Choose your preferred display currency:</p>
                 <div class="currency-options">
                     <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
                         <span class="flag">🇧🇷</span> Brazilian Real (R$)
@@ -228,13 +242,44 @@
                 const onlyCards = pokemons.filter(p => p.Category !== "Coin");
                 const shuffledCards = [...onlyCards].sort(() => 0.5 - Math.random());
                 const random12Cards = shuffledCards.slice(0, 12);
-
+                
                 const cardContainer = document.getElementById("cardGrid");
                 if (cardContainer && typeof createCardElement === "function") {
                     cardContainer.innerHTML = "";
-                    const doubleCards = [...random12Cards, ...random12Cards];
-                    doubleCards.forEach(pokemon => {
+                    [...random12Cards, ...random12Cards].forEach(pokemon => {
                         cardContainer.appendChild(createCardElement(pokemon));
+                    });
+                }
+
+                const expensiveContainer = document.getElementById("expensiveCarouselTrack");
+                if (expensiveContainer && typeof createCardElement === "function") {
+                    expensiveContainer.innerHTML = "";
+                    
+                    const parsePrice = (priceStr) => {
+                        if (!priceStr || priceStr === "-") return 0;
+                        return parseFloat(priceStr.replace("R$", "").replace(/\./g, "").replace(",", ".").trim()) || 0;
+                    };
+
+                    const topExpensive = [...onlyCards]
+                        .sort((a, b) => parsePrice(b.Price1) - parsePrice(a.Price1))
+                        .slice(0, 20);
+
+                    topExpensive.forEach(pokemon => {
+                        expensiveContainer.appendChild(createCardElement(pokemon));
+                    });
+                }
+
+                const beautifulContainer = document.getElementById("beautifulCarouselTrack");
+                if (beautifulContainer && typeof createCardElement === "function") {
+                    beautifulContainer.innerHTML = "";
+                    const gxVmaxCards = onlyCards.filter(p => p.Category === "GX" || p.Category === "VMAX");
+                    
+                    const displayGxVmax = [...gxVmaxCards]
+                        .sort(() => 0.5 - Math.random())
+                        .slice(0, 20);
+                    
+                    displayGxVmax.forEach(pokemon => {
+                        beautifulContainer.appendChild(createCardElement(pokemon));
                     });
                 }
 
@@ -244,8 +289,7 @@
                     coinContainer.innerHTML = "";
                     const doubleCoins = onlyCoins.length > 0 ? [...onlyCoins, ...onlyCoins] : [];
                     doubleCoins.forEach(coin => {
-                        const coinCard = createCardElement(coin);
-                        coinContainer.appendChild(coinCard);
+                        coinContainer.appendChild(createCardElement(coin));
                     });
                 }
 
@@ -260,5 +304,4 @@
         });
     </script>
 </body>
-
 </html>

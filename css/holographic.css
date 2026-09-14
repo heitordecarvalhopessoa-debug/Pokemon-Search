@@ -26,9 +26,9 @@
   background: linear-gradient(
     115deg,
     transparent 20%,
-    rgba(255, 0, 150, 0.4) 40%,
-    rgba(0, 255, 255, 0.4) 60%,
-    transparent 80%
+    rgba(255, 0, 150, 0.5) 40%,
+    rgba(0, 255, 255, 0.6) 60%,
+    transparent 70%
   );
   background-size: 200% 200%;
   background-position: var(--holo-x, 50%) var(--holo-y, 50%);

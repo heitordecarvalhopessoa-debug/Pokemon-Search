@@ -3,11 +3,6 @@ const ITEMS_PER_PAGE = 30;
 let currentDataset = [];
 let coinsCarouselIndex = 0;
 
-let zoomLevel = 1;
-const MIN_ZOOM = 1;
-const MAX_ZOOM = 4;
-const ZOOM_STEP = 0.5;
-
 function getFavorites() {
   const favorites = localStorage.getItem("favoriteCards");
   return favorites ? JSON.parse(favorites) : [];
@@ -42,7 +37,7 @@ function createCardElement(pokemon) {
   const favorites = getFavorites();
   const card = document.createElement("div");
   card.className = "card-item";
-  card.setAttribute("data-serial", pokemon.SerialNumber || "");
+  card.setAttribute("data-serial", pokemon.SerialNumber);
 
   const badgeClass = pokemon.Textured === "Yes" ? "badge-yes" : "badge-no";
   const texturedText = pokemon.Textured === "Yes" ? "Textured" : "Non-Textured";
@@ -52,18 +47,18 @@ function createCardElement(pokemon) {
   const formattedPrice1 =
     typeof convertPrice === "function"
       ? convertPrice(pokemon.Price1)
-      : (pokemon.Price1 || "-");
+      : pokemon.Price1;
 
   card.innerHTML = `
     <div class="card-img-wrapper">
-      <button class="fav-btn ${isFav ? "active" : ""}" title="Favorite">
+      <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFavorite('${pokemon.SerialNumber}', event)" title="Favorite">
         ${heartIcon}
       </button>
-      <img src="${pokemon.Image || ''}" alt="${pokemon.Name || 'Card'}" class="card-img" onerror="this.src='https://via.placeholder.com/140x195?text=No+Img'">
+      <img src="${pokemon.Image}" alt="${pokemon.Name}" class="card-img" onerror="this.src='https://via.placeholder.com/140x195?text=No+Img'">
     </div>
     <div class="card-info">
-      <div class="card-title" title="${pokemon.Name || ''}">${pokemon.Name || 'Unknown'}</div>
-      <div class="card-series">${pokemon.SerialNumber || '-'}</div>
+      <div class="card-title" title="${pokemon.Name}">${pokemon.Name}</div>
+      <div class="card-series">${pokemon.SerialNumber}</div>
       <div class="card-set" title="${pokemon.Set || '-'}">${pokemon.Set || '-'}</div>
       <div class="card-badges">
         <span class="${badgeClass}">${texturedText}</span>
@@ -71,14 +66,6 @@ function createCardElement(pokemon) {
       <div class="card-price-main">${formattedPrice1}</div>
     </div>
   `;
-
-  const favBtn = card.querySelector(".fav-btn");
-  if (favBtn) {
-    favBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleFavorite(pokemon.SerialNumber, e);
-    });
-  }
 
   card.addEventListener("click", () => {
     openModal(pokemon);
@@ -183,50 +170,33 @@ function updateModalPrices(pokemon) {
   const price2El = document.getElementById("modalPrice2");
   const price3El = document.getElementById("modalPrice3");
 
-  if (price1El) price1El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price1) : (pokemon.Price1 || "-");
-  if (price2El) price2El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price2) : (pokemon.Price2 || "-");
-  if (price3El) price3El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price3) : (pokemon.Price3 || "-");
-}
-
-function updateZoomIndicator() {
-  const zoomIndicator = document.getElementById("zoomIndicator");
-  const modalImg = document.getElementById("modalImg");
-
-  if (modalImg) {
-    modalImg.style.transform = `scale(${zoomLevel})`;
-  }
-
-  if (zoomIndicator) {
-    zoomIndicator.innerText = `Zoom: ${zoomLevel.toFixed(1)}x (Left click: + | Right click: -)`;
-  }
-}
-
-function resetZoom() {
-  zoomLevel = 1;
-  const modalImg = document.getElementById("modalImg");
-  if (modalImg) {
-    modalImg.style.transformOrigin = "center center";
-  }
-  updateZoomIndicator();
+  if (price1El) price1El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price1) : pokemon.Price1;
+  if (price2El) price2El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price2) : pokemon.Price2;
+  if (price3El) price3El.innerText = typeof convertPrice === "function" ? convertPrice(pokemon.Price3) : pokemon.Price3;
 }
 
 function openModal(pokemon) {
   currentModalPokemon = pokemon;
 
-  resetZoom();
-
+  const zoomContainer = document.getElementById("zoomContainer");
   const modalImg = document.getElementById("modalImg");
-  const imageUrl = pokemon.Image || pokemon.image || pokemon.img || "";
-  if (modalImg) modalImg.src = imageUrl;
+  if (zoomContainer && modalImg) {
+    zoomContainer.classList.remove("zoomed");
+    modalImg.style.transformOrigin = "center center";
+  }
+
+  if (modalImg) modalImg.src = pokemon.Image;
 
   const modalNameEl = document.getElementById("modalName");
-  if (modalNameEl) modalNameEl.innerText = pokemon.Name || "Unknown";
+  if (modalNameEl) modalNameEl.innerText = pokemon.Name;
 
   const modalSetEl = document.getElementById("modalSet");
-  if (modalSetEl) modalSetEl.innerText = pokemon.Set || "-";
+  if (modalSetEl) {
+    modalSetEl.innerText = pokemon.Set || "-";
+  }
 
   const modalSeriesEl = document.getElementById("modalSeries");
-  if (modalSeriesEl) modalSeriesEl.innerText = pokemon.SerialNumber || "-";
+  if (modalSeriesEl) modalSeriesEl.innerText = pokemon.SerialNumber;
 
   const modalTexturedEl = document.getElementById("modalTextured");
   if (modalTexturedEl) {
@@ -241,7 +211,6 @@ function openModal(pokemon) {
 
 function closeModal() {
   currentModalPokemon = null;
-  resetZoom();
   const cardModal = document.getElementById("cardModal");
   if (cardModal) cardModal.style.display = "none";
 }
@@ -270,24 +239,13 @@ function initZoomFeature() {
     modalImg.style.transformOrigin = `${x}% ${y}%`;
   });
 
-  zoomContainer.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (zoomLevel < MAX_ZOOM) {
-      zoomLevel = Math.min(MAX_ZOOM, zoomLevel + ZOOM_STEP);
-      updateZoomIndicator();
-    }
-  });
-
-  zoomContainer.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    if (zoomLevel > MIN_ZOOM) {
-      zoomLevel = Math.max(MIN_ZOOM, zoomLevel - ZOOM_STEP);
-      updateZoomIndicator();
-    }
+  zoomContainer.addEventListener("click", () => {
+    zoomContainer.classList.toggle("zoomed");
   });
 
   zoomContainer.addEventListener("mouseleave", () => {
-    resetZoom();
+    zoomContainer.classList.remove("zoomed");
+    modalImg.style.transformOrigin = "center center";
   });
 }
 

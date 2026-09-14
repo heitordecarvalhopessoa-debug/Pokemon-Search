@@ -1,4 +1,8 @@
 const creditsData = {
+  developer: {
+    title: "Developer",
+    name: "Heitor Pessoa"
+  },
   sources: {
     title: "Information Sources",
     name: "LigaPokemon, Amazon, Ebay"
@@ -7,7 +11,7 @@ const creditsData = {
     title: "All rights to original creators",
     name: "Nintendo, Copag"
   },
-  version: "1.5.0"
+  version: "1.14.0"
 };
 
 function renderCreditsModal() {

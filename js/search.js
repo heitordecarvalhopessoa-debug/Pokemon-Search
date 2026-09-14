@@ -48,6 +48,7 @@ function closeFilterDrawer() {
 }
 
 function resetFilters() {
+  const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
   const textureFilter = document.getElementById("textureFilter");
   const favFilter = document.getElementById("favFilter");
@@ -55,6 +56,7 @@ function resetFilters() {
   const minPriceInput = document.getElementById("minPriceInput");
   const maxPriceInput = document.getElementById("maxPriceInput");
 
+  if (searchInput) searchInput.value = "";
   if (categoryFilter) categoryFilter.value = "ALL";
   if (textureFilter) textureFilter.value = "ALL";
   if (favFilter) favFilter.value = "ALL";
@@ -63,9 +65,10 @@ function resetFilters() {
   if (maxPriceInput) maxPriceInput.value = "";
 
   selectColorFilter("ALL");
+  filterTable();
 }
 
-function updateActiveFilterBadge(category, texture, fav, sort, minPrice, maxPrice, color) {
+function updateActiveFilterBadge(category, texture, fav, sort, minPrice, maxPrice, color, searchTerm) {
   const badge = document.getElementById("activeFilterBadge");
   if (!badge) return;
 
@@ -77,6 +80,7 @@ function updateActiveFilterBadge(category, texture, fav, sort, minPrice, maxPric
   if (minPrice !== "" && !isNaN(minPrice)) activeCount++;
   if (maxPrice !== "" && !isNaN(maxPrice)) activeCount++;
   if (color && color !== "ALL") activeCount++;
+  if (searchTerm && searchTerm.length > 0) activeCount++;
 
   if (activeCount > 0) {
     badge.innerText = activeCount;
@@ -130,34 +134,44 @@ function setupAutocomplete() {
     const term = searchInput.value.toLowerCase().trim();
     suggestionsBox.innerHTML = "";
 
+    filterTable();
+
     if (!term) {
       suggestionsBox.style.display = "none";
-      filterTable();
       return;
     }
 
     const baseData = getPageDataset();
-    
-    const matches = Array.from(
-      new Set(
-        baseData
-          .filter(p => p.Name.toLowerCase().includes(term))
-          .map(p => p.Name)
-      )
-    ).slice(0, 6);
+    const seenNames = new Set();
+    const matches = [];
+
+    for (const p of baseData) {
+      if (p.Name.toLowerCase().includes(term) && !seenNames.has(p.Name)) {
+        seenNames.add(p.Name);
+        matches.push(p);
+        if (matches.length >= 6) break;
+      }
+    }
 
     if (matches.length === 0) {
       suggestionsBox.style.display = "none";
-      filterTable();
       return;
     }
 
-    matches.forEach(name => {
+    matches.forEach(item => {
+      const name = typeof item === "object" ? item.Name : item;
+      const imageUrl = typeof item === "object" ? (item.Image || item.Img || "") : "";
+
       const li = document.createElement("li");
       const regex = new RegExp(`(${term})`, "gi");
       const highlightedName = name.replace(regex, "<strong>$1</strong>");
       
-      li.innerHTML = `🔍 ${highlightedName}`;
+      li.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          ${imageUrl ? `<img src="${imageUrl}" alt="${name}" style="width: 24px; height: 32px; object-fit: cover; border: 1px solid #ddd; border-radius: 2px;" />` : '🔍'}
+          <span>${highlightedName}</span>
+        </div>
+      `;
       
       li.addEventListener("click", () => {
         searchInput.value = name;
@@ -169,7 +183,6 @@ function setupAutocomplete() {
     });
 
     suggestionsBox.style.display = "block";
-    filterTable();
   });
 
   document.addEventListener("click", (e) => {
@@ -210,7 +223,8 @@ function filterTable() {
     selectedSort,
     minPriceVal,
     maxPriceVal,
-    selectedColor
+    selectedColor,
+    term
   );
 
   const favorites = typeof getFavorites === "function" ? getFavorites() : [];
@@ -280,7 +294,6 @@ function filterTable() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
   const textureFilter = document.getElementById("textureFilter");
   const favFilter = document.getElementById("favFilter");
@@ -305,4 +318,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAutocomplete();
   filterTable();
 });
-

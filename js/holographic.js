@@ -37,11 +37,11 @@ function initHolographicCards() {
       const mouseXPercent = (x / rect.width) * 100;
       const mouseYPercent = (y / rect.height) * 100;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
       card.style.setProperty("--mouse-x", `${mouseXPercent}%`);
       card.style.setProperty("--mouse-y", `${mouseYPercent}%`);
-      card.style.setProperty("--holo-x", `${80 + rotateY * 2}%`);
-      card.style.setProperty("--holo-y", `${80 + rotateX * 2}%`);
+      card.style.setProperty("--holo-x", `${40 + rotateY * 2}%`);
+      card.style.setProperty("--holo-y", `${40 + rotateX * 2}%`);
     });
 
     card.addEventListener("mouseleave", () => {

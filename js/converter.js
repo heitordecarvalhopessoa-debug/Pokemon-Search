@@ -14,8 +14,7 @@ let exchangeRates = {
 async function fetchExchangeRates() {
   try {
     const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,JPY-BRL,GBP-BRL,AUD-BRL,CHF-BRL");
-
-    if (!response.ok) throw new Error("Erro ao carregar taxas de câmbio");
+    if (!response.ok) throw new Error("Failed to load exchange rates");
     
     const data = await response.json();
 
@@ -26,15 +25,10 @@ async function fetchExchangeRates() {
       exchangeRates.USD = 1 / usdToBrl;
       exchangeRates.EUR = 1 / eurToBrl;
 
-      if (typeof filterTable === "function") {
-        filterTable();
-      }
-      if (currentModalPokemon && typeof updateModalPrices === "function") {
-        updateModalPrices(currentModalPokemon);
-      }
+      if (typeof filterTable === "function") filterTable();
     }
   } catch (error) {
-    console.warn("Usando taxas de câmbio padrão de fallback.", error);
+    console.warn("Using default fallback exchange rates.", error);
   }
 }
 
@@ -48,43 +42,38 @@ function convertPrice(priceStr, targetCurrency = currentCurrency) {
   const convertedValue = numericValue * rate;
 
   switch (targetCurrency) {
-    case "USD":
-      return `$ ${convertedValue.toFixed(2)}`;
-    case "EUR":
-      return `€ ${convertedValue.toFixed(2)}`;
-    case "JPY":
-      return `¥ ${convertedValue.toFixed(2)}`;
-    case "UK":
-      return `£ ${convertedValue.toFixed(2)}`;
-    case "AUS":
-      return `$ ${convertedValue.toFixed(2)}`;
-    case "CHF":
-      return `CHF ${convertedValue.toFixed(2)}`;
+    case "USD": return `$ ${convertedValue.toFixed(2)}`;
+    case "EUR": return `€ ${convertedValue.toFixed(2)}`;
+    case "JPY": return `¥ ${convertedValue.toFixed(0)}`;
+    case "UK":  return `£ ${convertedValue.toFixed(2)}`;
+    case "AUS": return `$ ${convertedValue.toFixed(2)}`;
+    case "CHF": return `CHF ${convertedValue.toFixed(2)}`;
     case "BRL":
     default:
       return `R$ ${convertedValue.toFixed(2).replace(".", ",")}`;
   }
 }
 
-function getSelectedCurrency() {
-  return currentCurrency;
-}
-
-function openCurrencyModal() {
+window.openCurrencyModal = function() {
   const modal = document.getElementById("currencyModal");
-  if (modal) modal.style.display = "flex";
-}
+  if (modal) {
+    modal.style.setProperty("display", "flex", "important");
+  } else {
+    console.error("currencyModal element not found");
+  }
+};
 
-function closeCurrencyModal() {
+window.closeCurrencyModal = function() {
   const modal = document.getElementById("currencyModal");
-  if (modal) modal.style.display = "none";
-}
+  if (modal) {
+    modal.style.setProperty("display", "none", "important");
+  }
+};
 
-function selectCurrency(currencyCode) {
+window.selectCurrency = function(currencyCode) {
   currentCurrency = currencyCode;
 
-  const buttons = document.querySelectorAll(".currency-option-btn");
-  buttons.forEach((btn) => {
+  document.querySelectorAll(".currency-option-btn").forEach((btn) => {
     if (btn.getAttribute("data-currency") === currencyCode) {
       btn.classList.add("active");
     } else {
@@ -96,21 +85,18 @@ function selectCurrency(currencyCode) {
   const labelEl = document.getElementById("currentCurrencyLabel");
   if (labelEl) labelEl.innerText = labels[currencyCode] || currencyCode;
 
-  if (typeof filterTable === "function") {
-    filterTable();
-  }
-
+  if (typeof filterTable === "function") filterTable();
   if (currentModalPokemon && typeof updateModalPrices === "function") {
     updateModalPrices(currentModalPokemon);
   }
 
-  closeCurrencyModal();
-}
+  window.closeCurrencyModal();
+};
 
 window.addEventListener("click", (event) => {
   const currencyModal = document.getElementById("currencyModal");
   if (event.target === currencyModal) {
-    closeCurrencyModal();
+    window.closeCurrencyModal();
   }
 });
 

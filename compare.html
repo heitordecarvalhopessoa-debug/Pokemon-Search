@@ -35,7 +35,7 @@
 
             <div class="header-actions">
                 <button id="currencyBtn" class="currency-btn" onclick="openCurrencyModal()">
-                    <span id="currentCurrencyLabel">BRL (R$)</span>
+                    <span id="currentCurrencyLabel">USD ($)</span>
                 </button>
 
                 <button id="creditsBtn" class="credits-btn" onclick="openCredits()">Credits</button>
@@ -118,14 +118,20 @@
             <div class="credits-body">
                 <p class="modal-subtitle">Choose your preferred display currency:</p>
                 <div class="currency-options">
-                    <button class="currency-option-btn active" data-currency="BRL" onclick="selectCurrency('BRL')">
+                    <button class="currency-option-btn" data-currency="BRL" onclick="selectCurrency('BRL')">
                         <span class="flag">🇧🇷</span> Brazilian Real (R$)
                     </button>
-                    <button class="currency-option-btn" data-currency="USD" onclick="selectCurrency('USD')">
+                    <button class="currency-option-btn active" data-currency="USD" onclick="selectCurrency('USD')">
                         <span class="flag">🇺🇸</span> US Dollar ($)
                     </button>
                     <button class="currency-option-btn" data-currency="EUR" onclick="selectCurrency('EUR')">
                         <span class="flag">🇪🇺</span> Euro (€)
+                    </button>
+                    <button class="currency-option-btn" data-currency="CNY" onclick="selectCurrency('CNY')">
+                        <span class="flag">🇨🇳</span> Chinese Yuan (¥)
+                    </button>
+                    <button class="currency-option-btn" data-currency="KRW" onclick="selectCurrency('KRW')">
+                        <span class="flag">🇰🇷</span> South Korean Won (₩)
                     </button>
                     <button class="currency-option-btn" data-currency="JPY" onclick="selectCurrency('JPY')">
                         <span class="flag">🇯🇵</span> Japanese Yen (¥)
@@ -138,6 +144,24 @@
                     </button>
                     <button class="currency-option-btn" data-currency="CHF" onclick="selectCurrency('CHF')">
                         <span class="flag">🇨🇭</span> Swiss Franc (CHF)
+                    </button>
+                    <button class="currency-option-btn" data-currency="CAD" onclick="selectCurrency('CAD')">
+                        <span class="flag">🇨🇦</span> Canadian Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="HKD" onclick="selectCurrency('HKD')">
+                        <span class="flag">🇭🇰</span> Hong Kong Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="SGD" onclick="selectCurrency('SGD')">
+                        <span class="flag">🇸🇬</span> Singapore Dollar ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="ARS" onclick="selectCurrency('ARS')">
+                        <span class="flag">🇦🇷</span> Argentine Peso ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="MXN" onclick="selectCurrency('MXN')">
+                        <span class="flag">🇲🇽</span> Mexican Peso ($)
+                    </button>
+                    <button class="currency-option-btn" data-currency="CLP" onclick="selectCurrency('CLP')">
+                        <span class="flag">🇨🇱</span> Chilean Peso ($)
                     </button>
                 </div>
             </div>

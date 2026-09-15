@@ -1,34 +1,57 @@
-let currentCurrency = "BRL";
+let currentCurrency = "USD";
 let currentModalPokemon = null;
 
 let exchangeRates = {
   BRL: 1.0,
   USD: 0.18,
   EUR: 0.16,
+  CNY: 1.25,
+  KRW: 240.0,
   JPY: 24.0,
   UK: 0.14,
   AUS: 0.25,
   CHF: 0.17,
+  CAD: 0.24,
+  HKD: 1.40,
+  SGD: 0.24,
+  ARS: 175.0,
+  MXN: 3.10,
+  CLP: 165.0,
 };
 
 async function fetchExchangeRates() {
   try {
-    const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,JPY-BRL,GBP-BRL,AUD-BRL,CHF-BRL");
-    if (!response.ok) throw new Error("Failed to load exchange rates");
+    const response = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,JPY-BRL,GBP-BRL,AUD-BRL,CHF-BRL,CAD-BRL,CNY-BRL,KRW-BRL,HKD-BRL,SGD-BRL,ARS-BRL,MXN-BRL,CLP-BRL");
+    if (!response.ok) throw new Error("Error in count [122]");
     
     const data = await response.json();
 
-    if (data.USDBRL && data.EURBRL) {
-      const usdToBrl = parseFloat(data.USDBRL.bid);
-      const eurToBrl = parseFloat(data.EURBRL.bid);
+    const pairs = {
+      USD: data.USDBRL,
+      EUR: data.EURBRL,
+      CNY: data.CNYBRL,
+      KRW: data.KRWBRL,
+      JPY: data.JPYBRL,
+      UK: data.GBPBRL,
+      AUS: data.AUDBRL,
+      CHF: data.CHFBRL,
+      CAD: data.CADBRL,
+      HKD: data.HKDBRL,
+      SGD: data.SGDBRL,
+      ARS: data.ARSBRL,
+      MXN: data.MXNBRL,
+      CLP: data.CLPBRL
+    };
 
-      exchangeRates.USD = 1 / usdToBrl;
-      exchangeRates.EUR = 1 / eurToBrl;
-
-      if (typeof filterTable === "function") filterTable();
+    for (const [key, value] of Object.entries(pairs)) {
+      if (value && value.bid) {
+        exchangeRates[key] = 1 / parseFloat(value.bid);
+      }
     }
+
+    if (typeof filterTable === "function") filterTable();
   } catch (error) {
-    console.warn("Using default fallback exchange rates.", error);
+    console.warn("Usando taxas de câmbio padrão (fallback).[cite: 1]", error);
   }
 }
 
@@ -41,17 +64,25 @@ function convertPrice(priceStr, targetCurrency = currentCurrency) {
   const rate = exchangeRates[targetCurrency] || 1;
   const convertedValue = numericValue * rate;
 
-  switch (targetCurrency) {
-    case "USD": return `$ ${convertedValue.toFixed(2)}`;
-    case "EUR": return `€ ${convertedValue.toFixed(2)}`;
-    case "JPY": return `¥ ${convertedValue.toFixed(0)}`;
-    case "UK":  return `£ ${convertedValue.toFixed(2)}`;
-    case "AUS": return `$ ${convertedValue.toFixed(2)}`;
-    case "CHF": return `CHF ${convertedValue.toFixed(2)}`;
-    case "BRL":
-    default:
-      return `R$ ${convertedValue.toFixed(2).replace(".", ",")}`;
-  }
+  const currencySymbols = {
+    USD: `$ ${convertedValue.toFixed(2)}`,
+    EUR: `€ ${convertedValue.toFixed(2)}`,
+    CNY: `¥ ${convertedValue.toFixed(2)}`,
+    KRW: `₩ ${convertedValue.toFixed(0)}`,
+    JPY: `¥ ${convertedValue.toFixed(0)}`,
+    UK:  `£ ${convertedValue.toFixed(2)}`,
+    AUS: `$ ${convertedValue.toFixed(2)}`,
+    CHF: `CHF ${convertedValue.toFixed(2)}`,
+    CAD: `$ ${convertedValue.toFixed(2)}`,
+    HKD: `$ ${convertedValue.toFixed(2)}`,
+    SGD: `$ ${convertedValue.toFixed(2)}`,
+    ARS: `$ ${convertedValue.toFixed(2)}`,
+    MXN: `$ ${convertedValue.toFixed(2)}`,
+    CLP: `$ ${convertedValue.toFixed(0)}`,
+    BRL: `R$ ${convertedValue.toFixed(2).replace(".", ",")}`
+  };
+
+  return currencySymbols[targetCurrency] || currencySymbols["BRL"];
 }
 
 window.openCurrencyModal = function() {
@@ -59,7 +90,7 @@ window.openCurrencyModal = function() {
   if (modal) {
     modal.style.setProperty("display", "flex", "important");
   } else {
-    console.error("currencyModal element not found");
+    console.error("Elemento currencyModal não encontrado[cite: 1]");
   }
 };
 
@@ -81,7 +112,12 @@ window.selectCurrency = function(currencyCode) {
     }
   });
 
-  const labels = { BRL: "BRL (R$)", USD: "USD ($)", EUR: "EUR (€)", JPY: "JPY (¥)", UK: "UK (£)", AUS: "AUS ($)", CHF: "CHF (CHF)" };
+  const labels = { 
+    BRL: "BRL (R$)", USD: "USD ($)", EUR: "EUR (€)", CNY: "CNY (¥)", KRW: "KRW (₩)", 
+    JPY: "JPY (¥)", UK: "UK (£)", AUS: "AUS ($)", CHF: "CHF (CHF)", CAD: "CAD ($)", 
+    HKD: "HKD ($)", SGD: "SGD ($)", ARS: "ARS ($)", MXN: "MXN ($)", CLP: "CLP ($)" 
+  };
+  
   const labelEl = document.getElementById("currentCurrencyLabel");
   if (labelEl) labelEl.innerText = labels[currencyCode] || currencyCode;
 

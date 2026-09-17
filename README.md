@@ -1,5 +1,7 @@
 # Pokémon Search - Favorites
 
+[![wakatime](https://wakatime.com/badge/user/b2c18339-9206-4f69-b04a-55ee4aead61a.svg)](https://wakatime.com/@b2c18339-9206-4f69-b04a-55ee4aead61a)
+
 A system for searching, filtering, and bookmarking Pokémon TCG cards.
 
 ### Features

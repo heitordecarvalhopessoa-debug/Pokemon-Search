@@ -1,5 +1,10 @@
 # Pokémon Search - Favorites
 
+[![Ping](https://uptime.hackclub.com/api/badge/4/ping)](https://uptime.hackclub.com/status/hackatime)
+[![Status](https://uptime.hackclub.com/api/badge/4/status)](https://uptime.hackclub.com/status/hackatime)
+[![Work time](https://hackatime-badge.hackclub.com/U059VC0UDEU/hackatime)](https://hackatime-badge.hackclub.com)
+![Skylight performance data](https://badges.skylight.io/rpm/gekOqYRbWn4F.svg?token=wAp7SSndwPO6w-7TFJvz7G-IXFMCDFmuCjm6wdKzibI&cache-control=no-cache)
+
 A system for searching, filtering, and bookmarking Pokémon TCG cards.
 
 ### Features

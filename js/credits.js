@@ -11,7 +11,7 @@ const creditsData = {
     title: "All rights to original creators",
     name: "Nintendo, Copag"
   },
-  version: "1.14.0"
+  version: "1.15.0"
 };
 
 function renderCreditsModal() {

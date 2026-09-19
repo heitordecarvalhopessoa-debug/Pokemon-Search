@@ -192,3 +192,57 @@
     color: #212529;
     border-color: #ffc107;
 }
+
+.dropdown-item {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+    border-color: #b0b0b0;
+}
+
+.dropdown-item.active {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+}
+
+.series-logo-img {
+    width: 100%;
+    height: 100%;
+    max-width: 105px;
+    max-height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
+#collectionDropdownMenu {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: auto;
+    top: 110%;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    z-index: 100;
+    width: 360px;
+    padding: 12px;
+    box-sizing: border-box;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}

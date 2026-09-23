@@ -1,4 +1,4 @@
-# Pokémon Search - Favorites
+# Pokémon Search
 
 A system for searching, filtering, and bookmarking Pokémon TCG cards.
 

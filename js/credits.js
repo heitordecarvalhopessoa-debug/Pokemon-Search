@@ -5,13 +5,13 @@ const creditsData = {
   },
   sources: {
     title: "Information Sources",
-    name: "LigaPokemon, Amazon, Ebay"
+    name: "LigaPokemon, Amazon, Ebay, Google"
   },
   rights: {
     title: "All rights to original creators",
-    name: "Nintendo, Copag"
+    name: "Nintendo, Copag, The Pokémon Company, Game Freak, Creatures Inc."
   },
-  version: "1.15.0"
+  version: "1.16.0"
 };
 
 function renderCreditsModal() {

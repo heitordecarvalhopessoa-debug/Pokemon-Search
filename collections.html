@@ -82,6 +82,9 @@
                             <div onclick="filterBySeriesDropdown('XY', this)" class="dropdown-item">
                                 <img src="Assets/ico/XY.png" alt="XY" class="series-logo-img" onerror="this.onerror=null; this.parentNode.innerHTML='XY';">
                             </div>
+                            <div onclick="filterBySeriesDropdown('Ex', this)" class="dropdown-item">
+                                <img src="Assets/ico/EX.png" alt="EX" class="series-logo-img" onerror="this.onerror=null; this.parentNode.innerHTML='EX';">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -124,13 +127,13 @@
                 <label for="categoryFilter">Category</label>
                 <select id="categoryFilter" class="filter-select">
                     <option value="ALL">All Categories</option>
-                    <option value="Coin">Coin</option>
                     <option value="V">V</option>
                     <option value="VMAX">VMAX</option>
                     <option value="VSTAR">VSTAR</option>
                     <option value="EX">EX</option>
                     <option value="GX">GX</option>
                     <option value="BREAK">BREAK</option>
+                    <option value="STAR">STAR</option>
                     <option value="Other">Others</option>
                 </select>
             </div>
@@ -145,26 +148,62 @@
             </div>
 
             <div class="filter-group">
-                <label for="favFilter">Favorites</label>
-                <select id="favFilter" class="filter-select">
-                    <option value="ALL">All Items</option>
-                    <option value="FAV">Only Favorites</option>
+                <label for="regionFilter">Region</label>
+                <select id="regionFilter" class="filter-select" onchange="filterTable()">
+                    <option value="ALL">All Regions</option>
+                    <option value="Paldean">Paldean</option>
+                    <option value="Hisuian">Hisuian</option>
+                    <option value="Galarian">Galarian</option>
+                    <option value="Alolan">Alolan</option>
                 </select>
             </div>
 
             <div class="filter-group">
+                <label for="typeFilter">Type</label>
+                <select id="typeFilter" class="filter-select">
+                    <option value="ALL">All Types</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Rainbow">Rainbow</option>
+                    <option value="RGB">RGB</option>
+                    <option value="SHINY">Shiny</option>
+                    <option value="Normal">Normal</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="favFilter">Favorites</label>
+                <select id="favFilter" class="filter-select">
+                    <option value="ALL">All Cards</option>
+                    <option value="FAV">Only Favorites</option>
+                </select>
+            </div>
+
+            <div class="filter-group full-width">
                 <label for="sortOrder">Sort By</label>
                 <select id="sortOrder" class="filter-select">
                     <option value="default">Default</option>
                     <option value="price-asc">Price: Low to High</option>
                     <option value="price-desc">Price: High to Low</option>
                     <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
                 </select>
             </div>
 
-            <div class="filter-group">
-                <label>Price Range</label>
-                <div style="display: flex; gap: 8px; align-items: center;">
+            <div class="filter-group full-width">
+                <label for="priceRangePreset">Price Ranges</label>
+                <select id="priceRangePreset" class="filter-select">
+                    <option value="ALL">All Prices</option>
+                    <option value="above-50">Above 50</option>
+                    <option value="21-200">Between 21 - 200</option>
+                    <option value="200-500">Between 200 - 500</option>
+                    <option value="501-1500">Between 501 - 1500</option>
+                    <option value="above-1501">Above 1501</option>
+                </select>
+            </div>
+
+            <div class="filter-group full-width">
+                <label>Custom Price Range</label>
+                <div style="display: flex; gap: 6px; align-items: center;">
                     <input type="number" id="minPriceInput" class="filter-select" placeholder="Min" min="0" step="0.01">
                     <span>-</span>
                     <input type="number" id="maxPriceInput" class="filter-select" placeholder="Max" min="0" step="0.01">

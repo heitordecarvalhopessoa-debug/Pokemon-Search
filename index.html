@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/modals.css">
     <link rel="stylesheet" href="css/holographic.css">
     <link rel="stylesheet" href="css/loading-styles.css">
+    <link rel="stylesheet" href="css/settings-dropdown.css">
 </head>
 
 <body>
@@ -99,71 +100,6 @@
             No Pokémon found.
         </div>
     </div>
-
-    <div id="filterOverlay" class="filter-overlay" onclick="closeFilterDrawer()"></div>
-    <aside id="filterDrawer" class="filter-drawer">
-        <div class="drawer-header">
-            <h3>Filters & Sorting</h3>
-            <span class="drawer-close-btn" onclick="closeFilterDrawer()">&times;</span>
-        </div>
-
-        <div class="drawer-body">
-            <div class="filter-group">
-                <label for="categoryFilter">Category</label>
-                <select id="categoryFilter" class="filter-select">
-                    <option value="ALL">All Categories</option>
-                    <option value="V">V</option>
-                    <option value="VMAX">VMAX</option>
-                    <option value="VSTAR">VSTAR</option>
-                    <option value="EX">EX</option>
-                    <option value="GX">GX</option>
-                    <option value="BREAK">BREAK</option>
-                    <option value="Other">Others</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="textureFilter">Texture</label>
-                <select id="textureFilter" class="filter-select">
-                    <option value="ALL">All Textures</option>
-                    <option value="Yes">Textured</option>
-                    <option value="No">Non-Textured</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="favFilter">Favorites</label>
-                <select id="favFilter" class="filter-select">
-                    <option value="ALL">All Cards</option>
-                    <option value="FAV">Only Favorites</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="sortOrder">Sort By</label>
-                <select id="sortOrder" class="filter-select">
-                    <option value="default">Default</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name (A-Z)</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="filter-group">
-            <label>Price Range</label>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <input type="number" id="minPriceInput" class="filter-select" placeholder="Min" min="0" step="0.01">
-                <span>-</span>
-                <input type="number" id="maxPriceInput" class="filter-select" placeholder="Max" min="0" step="0.01">
-            </div>
-        </div>
-
-        <div class="drawer-footer">
-            <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
-            <button class="apply-btn" onclick="closeFilterDrawer()">Apply</button>
-        </div>
-    </aside>
 
     <div id="cardModal" class="modal">
         <div class="modal-content modal-right">
@@ -259,6 +195,7 @@
     <script src="js/credits.js" defer></script>
     <script src="js/holographic.js" defer></script>
     <script src="collection.js"></script>
+    <script src="app.js"></script>
 
     <script>
         window.addEventListener("load", () => {

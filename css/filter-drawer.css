@@ -17,8 +17,8 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 320px;
-    max-width: 85vw;
+    width: 420px;
+    max-width: 95vw;
     height: 100vh;
     background: #ffffff;
     border-left: 2px solid #ccc;
@@ -33,7 +33,7 @@
 }
 
 .drawer-header {
-    padding: 15px 20px;
+    padding: 30px 10px;
     border-bottom: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
@@ -43,39 +43,47 @@
 
 .drawer-header h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 15px;
     color: #2c3e50;
     font-weight: bold;
 }
 
-.drawer-close-btn {
-    font-size: 22px;
-    color: #7f8c8d;
+.close-drawer-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
+    color: #333;
+    padding: 0;
     line-height: 1;
 }
 
-.drawer-close-btn:hover {
+.close-drawer-btn:hover {
     color: #e74c3c;
 }
 
 .drawer-body {
-    padding: 20px;
+    padding: 15px;
     flex: 1;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-content: start;
 }
 
 .filter-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 3px;
+}
+
+.filter-group.full-width {
+    grid-column: span 2;
 }
 
 .filter-group label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     color: #7f8c8d;
     text-transform: uppercase;
@@ -83,8 +91,8 @@
 
 .filter-select {
     width: 100%;
-    padding: 8px 10px;
-    font-size: 14px;
+    padding: 4px 16px;
+    font-size: 12px;
     border: 1px solid #ccc;
     background-color: #fff;
     color: #333;
@@ -98,7 +106,7 @@
 }
 
 .drawer-footer {
-    padding: 15px 20px;
+    padding: 30px 10px;
     border-top: 1px solid #ddd;
     display: flex;
     gap: 10px;
@@ -107,12 +115,12 @@
 
 .reset-btn {
     flex: 1;
-    padding: 8px;
+    padding: 6px 14px;
     background: #e0e0e0;
     color: #333;
-    border: 1px solid #ccc;
+    border: none;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 0;
 }
@@ -123,12 +131,12 @@
 
 .apply-btn {
     flex: 1;
-    padding: 8px;
+    padding: 6px 14px;
     background: #3498db;
     color: #ffffff;
     border: none;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 0;
 }
@@ -144,7 +152,7 @@
     background-color: #ffffff;
     color: #333;
     border: 1px solid #ccc;
-    padding: 8px 14px;
+    padding: 6px 14px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -163,42 +171,7 @@
     color: #ffffff;
     font-size: 11px;
     font-weight: bold;
-    padding: 1px 5px;
-    border-radius: 0;
-}
-
-.card-set {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 2px;
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.carousel-wrapper {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.carousel-track {
-    display: flex;
-    gap: 16px;
-    width: max-content;
-    animation: scrollCarousel 25s linear infinite;
-}
-
-.carousel-track:hover {
-    animation-play-state: paused;
-}
-
-@keyframes scrollCarousel {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+    padding: 2px 6px;
+    border-radius: 10px;
+    display: inline-block;
 }
